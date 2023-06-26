@@ -1,127 +1,60 @@
-import React from 'react';
-import Table from '../../Table/Table';
+import React, { Component } from 'react';
+// import { createRoot } from 'react-dom/client';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-community/styles/ag-grid.css';
+// import './App.css'
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import apps from './aaps.json'
+import '../../assets/login.css'
+// import Tabs1 from './components/Tabs';
+class CostCenter extends Component {
+  constructor(props) {
+    super(props);
 
-class CostCenter extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            approvedVendoreTableData: {
-                columns: [
-                    {
-                        label: 'Name',
-                        key: 'Name',
-                        renderCallback: (value) => {
-                            return <td><span className={'name'}>{value}</span></td>
-                        }
-                    },
-                    {
-                        label: 'Pan',
-                        key: 'Pan',
-                        renderCallback: (value) => {
-                            return <td><span className={'Pan-value'}>{value}</span></td>
-                        }
-                    },
-                    {
-                        label: 'Assessment Year',
-                        key: 'AssessmentYear',
-                        renderCallback: (value) => {
-                            return <td><span className={'AssessmentYear-value'}>{value}</span></td>
-                        }
-                    },
-                    {
-                        label: 'Phone No',
-                        key: 'PhoneNo',
-                        renderCallback: (value) => {
-                            return <td><span className={'PhoneNo'}>{value}</span></td>
-                        }
-                    },
-                    {
-                        label: 'Status  ',
-                        key: 'Form16',
-                        renderCallback: (value) => {
-                            return <td><span className={'btn details-btn'}>{value}</span></td>
-                        }
-                    },
-                ],
+    this.state = {
+      columnDefs: [
+        { field: 'athlete', rowDrag: true },
+        { field: 'country' },
+        { field: 'year', width: 100 },
+        { field: 'date' },
+        { field: 'sport' },
+        { field: 'gold' },
+        { field: 'silver' },
+        { field: 'bronze' },
+      ],
+      defaultColDef: {
+        width: 170,
+        sortable: true,
+        filter: true,
+      },
+      rowSelection: 'multiple',
+      rowData: null,
+    };
+  }
 
-                data: [
-                    {
-                        Name: 'Income Tax',
-                        Pan: '123234433',
-                        AssessmentYear: '2020-2021',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Messi',
-                        Pan: '123234433',
-                        AssessmentYear: '2011-2012',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Ronaldo',
-                        Pan: '123234433',
-                        AssessmentYear: '2013-2014',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Jimi',
-                        Pan: '123234433',
-                        AssessmentYear: '2020-2021',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Rock',
-                        Pan: '123234433',
-                        AssessmentYear: '2020-2021',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Jastin',
-                        Pan: '123234433',
-                        AssessmentYear: '2015-2016',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Jeams',
-                        Pan: '123234433',
-                        AssessmentYear: '2020-2021',
-                        PhoneNo: '9943434344',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                ]
-            },
-        }
-    }
-    render() {
-        return (
-            <div className="main-content">
-                <div className="generate-content">
-                    <div className="form-row FormsearchBox ">
-                        <div className="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div className="generate-purchase">
-                                <h4>COST CENTER</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <Table valueFromData={this.state.approvedVendoreTableData} perPageLimit={6} visiblecheckboxStatus={false}
-                        isLoading={false}
-                        tableClasses={{ table: "ticket-tabel", tableParent: "tickets-tabel", parentClass: "all-support-ticket-tabel" }} searchKey="subject" showingLine="Showing %start% to %end% of %total%" />
-                </div>
-            </div>
-        )
-    }
+  render() {
+    return (
+      <div style={{ width: '100%', height: '100%' }}>
+        <div
+          style={{
+            height: '100%',
+            width: '100%',
+          }}
+          className="ag-theme-alpine"
+        >
+          <AgGridReact
+            columnDefs={this.state.columnDefs}
+            defaultColDef={this.state.defaultColDef}
+            rowDragManaged={true}
+            rowDragMultiRow={true}
+            rowSelection={this.state.rowSelection}
+            animateRows={true}
+            rowData={apps}
+          />
+        </div> 
+        {/* <Tabs1 /> */}
+      </div>
+    );
+  }
 }
-export default CostCenter;
+export default CostCenter
