@@ -1,1 +1,2 @@
-# tally-nandni-info-solution-
+# msalez-admin-ui
+react based admin ui
