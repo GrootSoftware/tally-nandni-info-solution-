@@ -23,7 +23,7 @@ class DefaultLayout extends Component {
       //Loading: false
       renderTabs: [],
       tab_Data_l: [],
-      value: 1
+      value: "1"
     }
   }
 
@@ -31,7 +31,7 @@ class DefaultLayout extends Component {
     this.props.dispatch(departmentAction.getDepartment());
     this.props.dispatch(requistionAction.getCurrency());
     this.props.dispatch(emailActions.searchallemails({ 'search': 'inbox' }));
-    this.props.dispatch(tabAction.add())
+    // this.props.dispatch(tabAction.add())
 
   }
 
@@ -47,26 +47,26 @@ class DefaultLayout extends Component {
     }
     if (JSON.stringify(prevProps.tab_Data) !== JSON.stringify(this.props.tab_Data)) {
 
-      this.handleStorageChange();
+      this.handleTabDataChange();
     }
   }
 
-
-
-
-  handleStorageChange = () => {
-    const tabs = this.props.tab_Data || []
+  handleTabDataChange = () => {
+    const tabs = this?.props?.tab_Data || []
     const renderTabs = []
-    tabs.forEach(e => {
+
+    tabs?.tabs?.forEach(e => {
       routes.forEach(k => {
         if (k.path === e) {
           renderTabs.push(k)
         }
       })
     })
+
     this.setState({
       renderTabs: renderTabs,
-      tab_Data_l: this.props.tab_Data
+      tab_Data_l: this.props.tab_Data,
+      activeTab: tabs.currentTab
     })
   }
 
@@ -89,10 +89,28 @@ class DefaultLayout extends Component {
   // };
 
   handleChange = (event, newValue) => {
-    console.log("AAAAAAAAAAAAAAAAAAAAAAAAA",newValue)
     event.preventDefault();
-    this.setState({ value: newValue });
-  };
+    console.log(newValue)
+    this.setState({
+      value: newValue,
+      activeTab: newValue
+    });
+  }
+
+  handleRemoveTab = (i) => {
+    const tabs = this.props?.tab_Data?.tabs || []
+
+
+
+    if (i === tabs.length - 1) {
+      tabs.splice(i, 1)
+      this.props.dispatch(tabAction.add([...tabs], tabs[i - 1]))
+    } else {
+      tabs.splice(i, 1)
+      this.props.dispatch(tabAction.add([...tabs], tabs[i]))
+    }
+
+  }
 
   render() {
 
@@ -101,9 +119,10 @@ class DefaultLayout extends Component {
 
         <SideMenu {...this.props} />
         <Header {...this.props} />
-        <Suspense >
+        <Suspense fallback={<Loader />}>
           <div className="content-page">
             <div className="container-fluid">
+
               {/* {this.createRoutes()} */}
 
               {/* <Tabs>
@@ -120,40 +139,26 @@ class DefaultLayout extends Component {
                   </TabPanel>
                 )
                 )}
-              </Tabs>  */}
+              </Tabs> */}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+              {/* <span onClick={() => this.handleRemoveTab(i)} className='btn btn-sm btn-danger'>x</span> */}
+              {/* {console.log("render", this.state.renderTabs)} */}
 
               {/* <Box sx={{ width: '100%', typography: 'body1' }}>
-                <TabContext value={this.state.value}>
+                <TabContext value={this.state.activeTab}>
                   <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={this.handleChange} aria-label="lab API tabs example">
                       {this.state?.renderTabs.map((e, i) => (
-                        <Tab label={e.name} value={i+1} key={i} />
+                      
+                          <Tab label={e.name} value={e.path} key={i} />
+                          
+                       
                       ))}
                       <Tab label="Item One" value="1" />
-                      <Tab label="Item Two" value="2" />
-                      <Tab label="Item Three" value="3" />
                     </TabList>
                   </Box>
                   {this.state?.renderTabs.map((e, i) => (
-                    <TabPanel key={i} value={i+1}>
+                    <TabPanel key={i} value={e.path}>
                       {<e.component />}
                     </TabPanel>
                   )
@@ -165,32 +170,27 @@ class DefaultLayout extends Component {
               </Box> */}
 
 
-
-
-
-
-
-
               <div className='mt-4'>
-                <TabContext value={this.state.value}>
+                <TabContext value={this.state.activeTab}>
                   <Box className="container " sx={{ width: '80%', typography: 'body1', bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}>
                     <TabList onChange={this.handleChange} variant="scrollable"
                       scrollButtons="auto"
                       aria-label="scrollable auto tabs example">
                       {this.state?.renderTabs.map((e, i) => (
-                        <Tab label={e.name} value={i+1} key={i} />
-                        
+                        <Tab label={e.name} value={e.path} key={i} />
+
                       ))}
                     </TabList>
                   </Box>
                   {this.state?.renderTabs.map((e, i) => (
-                    <TabPanel value={i+1} key={i}>
-                      {<e.component />}
+                    <TabPanel value={e.path}>
+                    
+                      <e.component />
                     </TabPanel>
                   )
                   )}
                 </TabContext>
-              </div>   
+              </div>
 
             </div>
           </div>

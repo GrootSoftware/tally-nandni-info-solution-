@@ -7,13 +7,16 @@ export const tabAction = {
     //logOut
 };
 
-function add(data, i) {
+function add(data, tabName) {
 
     return {
 
         type: status.SUCCESS,
         data: {
-            tab_Data: data
+            tab_Data: {
+                tabs: data,
+                currentTab: tabName
+            },
         }
     }
 

@@ -119,7 +119,7 @@ class Header extends Component {
               <Avatar alt="Remy Sharp" src={data.img} className="user-image" />
               <div className="user-massage">
                 <p style={{ margin: 0 }}>{data.title}</p>
-                <span style={{ margin: 0 }}>{data.description.substring(0,40)}</span>
+                <span style={{ margin: 0 }}>{data.description.substring(0, 40)}</span>
               </div>
             </li>
           </ul>
@@ -128,9 +128,30 @@ class Header extends Component {
     }
     return retData;
   }
+  componentWillMount() {
+    let strCustomer = localStorage.getItem("userData");
+    let customer = JSON.parse(strCustomer);
 
+    if (customer) {
+      this.setState({
+        firstName: customer.UserName,
+        isLogin: true,
+      });
+    }
+
+  }
+  componentDidMount = () => {
+    const loggedIn = window.localStorage.getItem('userData') !== null;
+    if (!loggedIn) {
+      window.location.href = '/'
+    }
+  }
+  logout = () => {
+    localStorage.clear();
+    window.location.href = "/";
+  }
   render() {
-    const { selected, notification, profile, searchToggle } = this.state;
+    const { selected, notification, profile, searchToggle, firstName } = this.state;
     return (
       <>
         <div className="navbar-custom">
@@ -138,72 +159,21 @@ class Header extends Component {
             <div className="row justify-content-center align-items-center">
               <div className="col-xl-4 d-none d-xl-block">
                 <div className="app-search">
-                  <div className="form-group">
+                  {/* <div className="form-group">
                     <input type="text" className="form-control" placeholder="Search here" />
                     <button><SearchIcon /></button>
-                  </div>
+                  </div> */}
                 </div>
               </div>
               <div className="col-xl-8 col-12">
                 <div className="d-block text-right header-notification">
-                  {/* <div className="d-none d-xl-inline-block menu"><a href="#">other menus</a></div> */}
-                  {/* <div className="notification-list">
-                    <Badge onClick={this.openSearchToggle} className="d-lg-none d-inline-block">
-                      <SearchIcon />
-                    </Badge>
-                    {searchToggle && <div className="search-toggle">
-                      <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Search here" />
-                        <button><SearchIcon /></button>
-                      </div>
-                    </div>}
-                    <Badge onClick={this.openNotificationModel} badgeContent={5} className="d-none d-md-inline-block">
-                      <NotificationsIcon onClick={this.openNotificationModel} />
-                    </Badge>
-                    {notification && (<>
-                      <div
-                        style={{ position: "fixed", width: "100%", height: "100%", left: "0", top: "0" }}
-                        onClick={this.openModelClose}
-                      ></div>
-                      <div className="user-list">
-                        <div className="noti-tittle">
-                          <h5>Notification</h5>
-                          <span><a href="#">Clear All</a></span>
-                        </div>
-                        <SimpleBar style={{ maxHeight: '300px' }} className="user-content">
-                          {this.notificationDisplay()}
-                        </SimpleBar>
-                        <div className="view-btn">
-                          <Button className="noti-btn">View All</Button>
-                        </div>
-                      </div>
-                    </>)}
-                    <Badge badgeContent={5} className="d-none d-md-inline-block">
-                      <CardGiftcardOutlinedIcon />
-                    </Badge>
-                    <Badge badgeContent={2} className="d-none d-md-inline-block">
-                      <LibraryAddCheckIcon />
-                    </Badge>
-                    <Badge badgeContent={3} className="d-none d-md-inline-block noti-icon">
-                      <FolderIcon />
-                    </Badge>
-                  </div> */}
-                  {/* <div className="country-menu border-right" onClick={this.handleOnClick}>
-                    <ReactFlagsSelect
-                      className="selected-country"
-                      countries={["US", "GB", "FR"]}
-                      customLabels={{ "US": "English", "GB": "English", "FR": "French" }}
-                      selected={selected}
-                      onSelect={this.handleSelect}
-                    />
-                  </div> */}
                   <div className="notification-user">
                     <ul>
                       <li>
                         <Avatar onClick={this.openLogOutModel} alt="Remy Sharp" src={UserImg} className="" />
                       </li>
                       <li>
-                        <span className="user-name" onClick={this.openLogOutModel}><strong>Franklin Jr.</strong> <br></br>Super Admin</span>
+                        <span className="user-name" onClick={this.openLogOutModel}><strong>{firstName}</strong> <br></br>Super Admin</span>
                       </li>
                       <li className="last" onClick={this.openLogOutModel}>
                         <ArrowDropDownIcon className=".sort-down" />
@@ -216,11 +186,11 @@ class Header extends Component {
                       ></div>
                       <div className="profile-menu">
                         <ul>
-                          <li><AccountCircleIcon className="menu-icon" />Account</li>
+                          {/* <li><AccountCircleIcon className="menu-icon" />Account</li>
                           <li><SettingsIcon className="menu-icon" />Settings</li>
                           <li><SportsSoccerIcon className="menu-icon" />Support</li>
-                          <li><LockOutlinedIcon className="menu-icon" />Lock</li>
-                          <li><ExitToAppOutlinedIcon className="menu-icon" />Logout</li>
+                          <li><LockOutlinedIcon className="menu-icon" />Lock</li> */}
+                          <li onClick={this.logout}><ExitToAppOutlinedIcon className="menu-icon" />Logout</li>
                         </ul>
                       </div>
                     </>)}

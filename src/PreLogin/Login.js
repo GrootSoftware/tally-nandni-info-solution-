@@ -10,8 +10,12 @@ import Logo2 from '../assets/images/logo-2.png';
 import { status, eventActions, eventCategories } from '../_constants';
 import { commonFunctions, GA } from '../_utilities';
 import { connect } from 'react-redux';
-import { authActions } from '../_actions';
+import EmailIcon from '@mui/icons-material/Email';
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import '../assets/login.css';
+import {constant, constantErr} from '../Constant'
+import { authActions } from '../_actions';
+import { alert } from '../_utilities';
 function Copyright() {
   return (
     <Typography variant="body2" color="textSecondary" align="center">
@@ -29,6 +33,7 @@ class Login extends Component {
   constructor() {
     super();
     this.state = {
+      username: '',
       email: '',
       password: '',
       isSubmitted: false
@@ -44,21 +49,23 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-    // this.props.history.push('/postlogin/dashboard') -- TODO. enable when use dashboard
-    this.props.history.push('/postlogin/dashboard')
-
+   
     // this.setState({
     //   isSubmitted: true
     // });
-    // const errorData = this.validate(true);
-    // if (errorData.isValid) {
-    //   const { email, password } = this.state;
-    //   const sendData = {
-    //     email,
-    //     password
-    //   };
-    //   this.props.dispatch(authActions.login(sendData));
-    // }
+    const errorData = this.validate(true);
+    if (errorData.isValid) {
+      const { username, password,active } = this.state;
+      const sendData = {
+        "USERMASTER": {
+        Ip:"",
+        UserName:username,
+        Password:password
+      }
+    };
+    // console.log("AAAAAAAAAAA",sendData)
+      this.props.dispatch(authActions.login(sendData));
+    }
   };
 
   validate = (isSubmitted) => {
@@ -69,29 +76,23 @@ class Login extends Component {
     };
     let isValid = true;
     const retData = {
-      email: validObj,
+      username: validObj,
       password: validObj,
       isValid
     };
     if (isSubmitted) {
-      const { email, password } = this.state;
-      if (!email) {
-        retData.email = {
+      const { username, password } = this.state;
+      if (!username) {
+        retData.username = {
           isValid: false,
-          message: "Email is required"
-        };
-        isValid = false;
-      } else if (email && !commonFunctions.validateEmail(email)) {
-        retData.email = {
-          isValid: false,
-          message: "Enter valid email"
+          message:  alert.error("User Name is required")
         };
         isValid = false;
       }
       if (!password) {
         retData.password = {
           isValid: false,
-          message: "Password is required"
+          message:alert.error("Password  is required")
         };
         isValid = false;
       }
@@ -100,31 +101,26 @@ class Login extends Component {
     return retData;
   };
 
-  componentDidUpdate(prevProps, prevState) {
-    if (prevProps.user_login_status !== this.props.user_login_status && this.props.user_login_status === status.SUCCESS) {
-      const { user } = this.props;
-      if (user && user.userDetails && !user.userDetails.emailVerified) {
-        this.props.history.push(`/prelogin/register/${user.token}`);
-      } else {
-        localStorage.setItem("userData", JSON.stringify(this.props.user));
-        this.props.history.push('/postlogin/dashboard');
-        if (user && user.userDetails) {
-          GA.dispatchGAEvent(eventCategories.USER, eventActions.LOGIN, `organization=${user.userDetails.organizationId.name};id=${user.userDetails._id}`);
-        }
-      }
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevProps.user_login_status !== this.props.user_login_status && this.props.user_login_status === status.SUCCESS) {
+  //       localStorage.setItem("userData", JSON.stringify(this.props.user));
+  //       this.props.history.push('/postlogin/dashboard');
+  //   }
+  // }
 
   render() {
-    const { email, password, isSubmitted } = this.state;
+    const { username, password, isSubmitted } = this.state;
     const { user_login_status } = this.props;
+    const errorData = this.validate(isSubmitted);
+
+   
     return (
       <>
 
 
         <div className="login-wrapper">
-          <div className='mb-2'>
-            <img src={Logo2} alt="" width="15%" />
+          <div className='mb-20 mt-3 ml-2'>
+            <img src={Logo2} alt="" width="10%" />
           </div>
           <div id="formContent" className='mt-5' style={{ textAlign: 'center' }} >
             <Box className='mb-2'>
@@ -139,14 +135,17 @@ class Login extends Component {
                     margin="normal"
                     required
                     fullWidth
-                    id="email"
-                    label="Email Address"
-                    name="email"
-                    autoComplete="email"
+                    id="username"
+                    label="User Name"
+                    name="username"
+                    autoComplete="username"
                     autoFocus
-                    value={email}
+                    value={username}
                     onChange={this.handleStateChange}
                   />
+                  <span className="text-danger">
+                    {errorData.username.message}
+                  </span>
                   <TextField
                     variant="outlined"
                     margin="normal"
@@ -160,6 +159,9 @@ class Login extends Component {
                     value={password}
                     onChange={this.handleStateChange}
                   />
+                  <span className="text-danger">
+                    {errorData.password.message}
+                  </span>
                   <Button
                     type="submit"
                     fullWidth
@@ -179,7 +181,21 @@ class Login extends Component {
             <Copyright />
           </Box>
 
-
+        </div>
+        <div className='submit_footer'>
+          <div className='submit_footer_text'>
+            < div className='submit_footer_img'>
+              <EmailIcon />
+              <p>dilipe9@gmail.com</p>
+            </div>
+            <div className='submit_footer_img'>
+              <LocalPhoneIcon />
+              <p>7597788711</p>
+            </div>
+          </div>
+          <div className='submit_footer_date'>
+            <p>2023 {'Copyright © '}Mayank Softwares Soltuion</p>
+          </div>
         </div>
       </>
     )

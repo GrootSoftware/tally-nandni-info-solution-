@@ -26,7 +26,7 @@ class SideMenu extends Component {
       openedSubMenus: [],
       emailLength: 0,
       emailType: 'inbox',
-      key:1
+      key: 1
     }
   }
 
@@ -68,13 +68,15 @@ class SideMenu extends Component {
   };
 
   setActiveTab = (index, tabName) => {
-    let tabArr = this.props.tab_Data || []
+
+    let tabArr = this?.props?.tab_Data?.tabs || []
+
+
     if (!tabArr.includes(tabName)) {
-      this.props.dispatch(tabAction.add(tabArr.concat(tabName)))
+      tabArr?.push(tabName)
     }
-    this.setState({
-      activeTab: index
-    });
+
+    this.props.dispatch(tabAction.add([...tabArr], tabName))
 
   }
 
@@ -98,6 +100,7 @@ class SideMenu extends Component {
     let retData = [];
     for (let i = 0; i < navigation.length; i++) {
       let nav = navigation[i];
+      
       retData.push(
         <li className="sidebar-menu" key={nav.name} onClick={this.handelSideNav}>
           <ListItem className={activeTab === i ? "active" : ""} tabIndex="0" component={Link} to={nav.to} onClick={() => this.setActiveTab(i, nav.to)}>
@@ -118,7 +121,7 @@ class SideMenu extends Component {
             </div>
           }
           {(nav.children && openedSubMenus[i]) &&
-            <ul>
+            <ul tabIndex="0">
               {this.displayChild(nav.children)}
             </ul>
           }
@@ -130,24 +133,29 @@ class SideMenu extends Component {
 
   handleTabs = (tabName) => {
 
-    let tabArr = this.props.tab_Data || []
+    let tabArr = this?.props?.tab_Data?.tabs || []
 
     if (!tabArr.includes(tabName)) {
-
-      this.props.dispatch(tabAction.add(tabArr.concat(tabName)))
+      tabArr?.push(tabName)
     }
+
+    this.props.dispatch(tabAction.add([...tabArr], tabName))
 
   }
 
   displayChild = (data) => {
+    const { activeTab, openedSubMenus, emailLength } = this.state;
     let childData = [];
+   
     for (let j = 0; j < data.length; j++) {
       childData.push(
-        <ListItem key={data[j].name}  >
-          <Link to="/postlogin" style={{ cursor: "pointer" }} onClick={() => this.handleTabs(data[j].to)} >
-            {data[j].name}
-          </Link>
-        </ListItem>
+            <ListItem key={data[j].name}  >
+              <Link to={data[j].to} style={{ cursor: "pointer" }} onClick={() => this.handleTabs(data[j].to)} >
+                {data[j].name}
+              </Link>
+            </ListItem>
+
+        
       );
     }
     return childData;
