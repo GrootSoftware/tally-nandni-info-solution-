@@ -1,40 +1,66 @@
 import React, { Component } from 'react';
-// import { createRoot } from 'react-dom/client';
+import { createRoot } from 'react-dom/client';
 import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
-// import './App.css'
 import 'ag-grid-community/styles/ag-theme-alpine.css';
 import apps from './aaps.json'
-import '../../assets/login.css'
-// import Tabs1 from './components/Tabs';
 class CostCenter extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       columnDefs: [
-        { field: 'athlete', rowDrag: true },
-        { field: 'country' },
-        { field: 'year', width: 100 },
-        { field: 'date' },
-        { field: 'sport' },
-        { field: 'gold' },
-        { field: 'silver' },
-        { field: 'bronze' },
+        { field: 'athlete',filter: 'agNumberColumnFilter' },
+        { field: 'age' ,filter: 'agNumberColumnFilter'},
+        { field: 'country',filter: 'agNumberColumnFilter' },
+        { field: 'sport' ,filter: 'agNumberColumnFilter'},
+        { field: 'year' ,filter: 'agNumberColumnFilter'},
+        { field: 'date' ,filter: 'agNumberColumnFilter'},
+        { field: 'gold' ,  filterParams: daysValuesNotProvidedFilterParams,},
+        { field: 'silver',  filterParams: daysValuesNotProvidedFilterParams, },
+        { field: 'bronze',  filterParams: daysValuesNotProvidedFilterParams, },
+        { field: 'total',  filterParams: daysValuesNotProvidedFilterParams, },
       ],
       defaultColDef: {
-        width: 170,
         sortable: true,
-        filter: true,
+        resizable: true,
+        width: 100,
+        enableRowGroup: true,
+        enablePivot: true,
+        enableValue: true,
       },
-      rowSelection: 'multiple',
-      rowData: null,
+      sideBar: {
+        toolPanels: ['columns','filters'],
+      },
+      rowGroupPanelShow: 'always',
+      pivotPanelShow: 'always',
+      excelStyles: [
+        {
+          id: 'fullName',
+          dataType: 'Formula',
+        },
+      ],
+      // rowData: getRowData(),
     };
   }
 
+  onGridReady = (params) => {
+    this.gridApi = params.api;
+    this.gridColumnApi = params.columnApi;
+  };
+
+  onFirstDataRendered = (params) => {
+    params.api.getToolPanelInstance('filters')?.expandFilters();
+  };
+
+  onBtExport = () => {
+    this.gridApi.exportDataAsExcel();
+  };
   render() {
+    console.log(this.state.sideBar)
     return (
-      <div style={{ width: '100%', height: '100%' }}>
+      <div style={{ width: '100%', height: '500px' }}>
         <div
           style={{
             height: '100%',
@@ -42,19 +68,52 @@ class CostCenter extends Component {
           }}
           className="ag-theme-alpine"
         >
+           <div>
+            <button
+              onClick={() => this.onBtExport()}
+              style={{ marginBottom: '5px', fontWeight: 'bold' }}
+            >
+              Export to Excel
+            </button>
+          </div>
           <AgGridReact
             columnDefs={this.state.columnDefs}
             defaultColDef={this.state.defaultColDef}
-            rowDragManaged={true}
-            rowDragMultiRow={true}
-            rowSelection={this.state.rowSelection}
-            animateRows={true}
+            sideBar={this.state.sideBar}
+            rowGroupPanelShow={this.state.rowGroupPanelShow}
             rowData={apps}
+            pagination={true}
+            onGridReady={this.onGridReady}
+            onFirstDataRendered={this.onFirstDataRendered.bind(this)}
           />
-        </div> 
-        {/* <Tabs1 /> */}
+        </div>
       </div>
     );
   }
 }
-export default CostCenter
+
+
+var listOfDays = apps
+var daysValuesNotProvidedFilterParams = {
+  comparator: (a, b) => {
+    var aIndex = a == null ? -1 : listOfDays.indexOf(a);
+    var bIndex = b == null ? -1 : listOfDays.indexOf(b);
+    if (aIndex === bIndex) return 0;
+    return aIndex > bIndex ? 1 : -1;
+  },
+};
+var daysValuesProvidedFilterParams = {
+  values: listOfDays,
+  suppressSorting: true, // use provided order
+};
+function getRowData() {
+  var weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
+  var rows = [];
+  for (var i = 0; i < 200; i++) {
+    var index = Math.floor(Math.random() * 5);
+    rows.push({ days: weekdays[index] });
+  }
+  return rows;
+}
+
+export default CostCenter;
