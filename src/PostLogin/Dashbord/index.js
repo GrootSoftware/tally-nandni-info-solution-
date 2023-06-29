@@ -147,9 +147,9 @@ class Dashbord extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(contactAction.fetchContactList());
-    this.props.dispatch(homeAction.Dashboarddata());
-    this.props.dispatch(invoiceAction.searchInvoice());
+    // this.props.dispatch(contactAction.fetchContactList());
+    // this.props.dispatch(homeAction.Dashboarddata());
+    // this.props.dispatch(invoiceAction.searchInvoice());
 
   }
 

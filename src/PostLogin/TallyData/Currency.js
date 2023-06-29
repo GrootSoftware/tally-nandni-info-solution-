@@ -8,19 +8,17 @@ import apps from './aaps.json'
 import { Padding } from '@mui/icons-material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '../../assets/login.css';
-
+import Excel from '../../assets/images/icons/clipart2394456.png'
+import Button from '@mui/material/Button';
 import Table from '../../Table/Table';
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
+import { costCenterAction } from '../../_actions/currency.action';
 
-
-import { Button } from '@mui/material';
-import { stockGodownAction, stockGroupAction, stockUnitAction, voucherTypeAction } from '../../_actions';
-
-class VoucherType extends Component {
+class Currency extends Component {
   constructor(props) {
     super(props);
 
@@ -50,10 +48,10 @@ class VoucherType extends Component {
         })
       }
     }
-    if (this.props.get_voucher_type_status !== prevProps.get_voucher_type_status && this.props.get_voucher_type_status == status.SUCCESS) {
-      if (this.props.voucher_type_list) {
+    if (this.props.get_currency_status !== prevProps.get_currency_status && this.props.get_currency_status == status.SUCCESS) {
+      if (this.props.currency_list) {
         this.setState({
-          filterRowData: this.props.voucher_type_list.Data,
+          filterRowData: this.props.currency_list.Data,
         })
       }
     }
@@ -84,15 +82,14 @@ class VoucherType extends Component {
     this.setState({
       requiData,
     });
-   
+  
   };
   refreshData=()=>{
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(voucherTypeAction.getVoucherTypeById({ CompanyID: requiData.CompanyID }))
+      this.props.dispatch(costCenterAction.getCurrencyById({ CompanyID: requiData.CompanyID }))
     }
   }
-
   render() {
     const { requiData, columnDefs } = this.state;
     return (
@@ -116,21 +113,21 @@ class VoucherType extends Component {
         </div>
 
         <div >
-          <Table columnDefs={columnDefs} rowData={this.state.filterRowData} />
+          <Table columnDefs={columnDefs} rowData={this.props.currency_list?.Data} />
         </div>
       </>
     );
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_voucher_type_status, voucher_type_list } = state.procurement;
+  const { get_company_data, get_company_status, get_currency_status, currency_list } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_voucher_type_status,
-    voucher_type_list
+    get_currency_status,
+    currency_list
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(VoucherType);
+const connectedLogin = connect(mapStateToProps)(Currency);
 export default (connectedLogin);

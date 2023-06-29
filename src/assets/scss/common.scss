@@ -411,7 +411,7 @@ select:focus-visible {
         color: #393939;
         padding: 8px 15px;
         border-radius: 8px;
-        background-color: #f5f5f5;
+        background-color: #fff;
         border: 1px solid #f5f5f5;
         width: 100%;
 
@@ -451,7 +451,7 @@ select:focus-visible {
         width: 100%;
         color: #90898a;
         border-radius: 8px;
-        background-color: #f5f5f5;
+        background-color: #fff;
         vertical-align: middle;
 
         .MuiNativeSelect-select {
@@ -1079,7 +1079,7 @@ select:focus-visible {
                 color: #393939;
                 padding: 8px 15px;
                 border-radius: 8px;
-                background-color: $body-box-bg;
+                background-color: #fff;
                 border: 1px solid #f5f5f5;
                 width: 100%;
             }

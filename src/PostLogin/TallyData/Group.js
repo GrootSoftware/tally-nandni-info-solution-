@@ -1,127 +1,135 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { createRoot } from 'react-dom/client';
+import { AgGridReact } from 'ag-grid-react';
+import 'ag-grid-enterprise';
+import 'ag-grid-community/styles/ag-grid.css';
+import 'ag-grid-community/styles/ag-theme-alpine.css';
+import apps from './aaps.json'
+import { Padding } from '@mui/icons-material';
+import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
+import '../../assets/login.css';
+
 import Table from '../../Table/Table';
+import FormControl from "@material-ui/core/FormControl";
+import NativeSelect from "@material-ui/core/NativeSelect";
+import { companyAction } from '../../_actions/company.action';
+import { status } from '../../_constants';
+import { connect } from 'react-redux';
 
-class Group extends React.Component {
-    constructor(props) {
-        super(props)
-        this.state = {
-            approvedVendoreTableData: {
-                columns: [
-                    {
-                        label: 'Name',
-                        key: 'Name',
-                        renderCallback: (value) => {
-                            return <td><span className={'name'}>{value}</span></td>
-                        }
-                    },
-                    {
-                        label: 'Pan',
-                        key: 'Pan',
-                        renderCallback: (value) => {
-                            return <td><span className={'Pan-value'}>{value}</span></td>
-                        }
-                    },
-                    {
-                        label: 'Assessment Year',
-                        key: 'AssessmentYear',
-                        renderCallback: (value) => {
-                            return <td><span className={'AssessmentYear-value'}>{value}</span></td>
-                        }
-                    },
-                    {
-                        label: 'Phone No',
-                        key: 'PhoneNo',
-                        renderCallback: (value) => {
-                            return <td><span className={'PhoneNo'}>{value}</span></td>
-                        }
-                    },
-                    {
-                        label: 'Status  ',
-                        key: 'Form16',
-                        renderCallback: (value) => {
-                            return <td><span className={'btn details-btn'}>{value}</span></td>
-                        }
-                    },
-                ],
+import { groupAction } from '../../_actions';
+import { Button } from '@mui/material';
 
-                data: [
-                    {
-                        Name: 'Income Tax',
-                        Pan: '123234433',
-                        AssessmentYear: '2020-2021',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Messi',
-                        Pan: '123234433',
-                        AssessmentYear: '2011-2012',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Ronaldo',
-                        Pan: '123234433',
-                        AssessmentYear: '2013-2014',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Jimi',
-                        Pan: '123234433',
-                        AssessmentYear: '2020-2021',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Rock',
-                        Pan: '123234433',
-                        AssessmentYear: '2020-2021',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Jastin',
-                        Pan: '123234433',
-                        AssessmentYear: '2015-2016',
-                        PhoneNo: '99373219034',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                    {
-                        Name: 'Jeams',
-                        Pan: '123234433',
-                        AssessmentYear: '2020-2021',
-                        PhoneNo: '9943434344',
-                        Form16: 'Download',
-                        colorCode: '#000',
-                    },
-                ]
-            },
+class Group extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      requiData: {
+        CompanyID: null
+      },
+      columnDefs: [
+        { field: 'CompanyName' },
+        { field: 'Name' },
+        { field: 'GUID' }
+      ],
+      rowData: [],
+      filterRowData: []
+    };
+  }
+
+  componentDidMount = () => {
+    this.props.dispatch(companyAction.getCompany({}))
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
+      if (this.props.get_company_data) {
+        this.setState({
+          rowData: this.props.get_company_data.Data,
+        })
+      }
+    }
+    if (this.props.get_group_status !== prevProps.get_group_status && this.props.get_group_status == status.SUCCESS) {
+      if (this.props.group_list) {
+        this.setState({
+          filterRowData: this.props.group_list.Data,
+        })
+      }
+    }
+  }
+  companyList = () => {
+    const { rowData } = this.state
+
+    if (rowData) {
+      let retData = [];
+      for (let i = 0; i < rowData.length; i++) {
+        let row = rowData[i];
+        if (row) {
+          retData.push(
+            <>
+              <option value={row.ID} >{row.RemoteCmpName}</option>
+            </>
+          );
         }
+      }
+      return retData;
     }
-    render() {
-        return (
-            <div className="main-content">
-                <div className="generate-content">
-                    <div className="form-row FormsearchBox ">
-                        <div className="col-xl-8 col-lg-12 col-md-12 col-sm-12 col-12">
-                            <div className="generate-purchase">
-                                <h4>LIST GROUP</h4>
-                            </div>
-                        </div>
-                    </div>
-                    <Table valueFromData={this.state.approvedVendoreTableData} perPageLimit={6} visiblecheckboxStatus={false}
-                        isLoading={false}
-                        tableClasses={{ table: "ticket-tabel", tableParent: "tickets-tabel", parentClass: "all-support-ticket-tabel" }} searchKey="subject" showingLine="Showing %start% to %end% of %total%" />
-                </div>
-            </div>
-        )
+  }
+
+  handleStateChange = (e) => {
+    const { name, value } = e.target;
+    const { requiData } = this.state;
+    requiData[name] = value;
+    this.setState({
+      requiData,
+    });
+   
+  };
+  refreshData=()=>{
+    const { requiData } = this.state;
+    if (requiData) {
+      this.props.dispatch(groupAction.getGroupById({ CompanyID: requiData.CompanyID }))
     }
+  }
+
+  render() {
+    const { requiData, columnDefs } = this.state;
+    return (
+      <>
+        <div className="col-12 col-sm-12 col-md-4">
+          <div className="form-group form-group-common d-flex">
+            <FormControl className="select">
+              <NativeSelect
+                name="CompanyID"
+                value={requiData.CompanyID}
+                onChange={this.handleStateChange}
+              >
+                <option value="">-Select-</option>
+                {this.companyList()}
+              </NativeSelect>
+            </FormControl>
+            <Button variant="contained"  className="alert-white-button ml-4" onClick={this.refreshData}>
+              <i className="fa fa-refresh"></i>&nbsp;&nbsp; Refresh
+            </Button>
+          </div>
+        </div>
+
+        <div >
+          <Table columnDefs={columnDefs} rowData={this.state.filterRowData} />
+        </div>
+      </>
+    );
+  }
 }
-export default Group;
+function mapStateToProps(state) {
+  const { get_company_data, get_company_status, get_group_status, group_list } = state.procurement;
+  return {
+    get_company_data,
+    get_company_status,
+    get_group_status,
+    group_list
+  };
+}
+
+const connectedLogin = connect(mapStateToProps)(Group);
+export default (connectedLogin);

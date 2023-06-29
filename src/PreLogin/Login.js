@@ -178,7 +178,7 @@ class Login extends Component {
             </Container>
           </div>
           <Box mt={6}>
-            <Copyright />
+            {/* <Copyright /> */}
           </Box>
 
         </div>

@@ -8,34 +8,54 @@ import apps from './aaps.json'
 import { Padding } from '@mui/icons-material';
 import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '../../assets/login.css';
-
+import Excel from '../../assets/images/icons/clipart2394456.png'
+import Button from '@mui/material/Button';
 import Table from '../../Table/Table';
 import FormControl from "@material-ui/core/FormControl";
 import NativeSelect from "@material-ui/core/NativeSelect";
 import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
-
-
-import { Button } from '@mui/material';
-import { stockGodownAction, stockGroupAction, stockUnitAction, voucherTypeAction } from '../../_actions';
-
-class VoucherType extends Component {
+class Company extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       requiData: {
-        CompanyID: null
+        ID: null
       },
       columnDefs: [
-        { field: 'CompanyName' },
-        { field: 'Name' },
-        { field: 'GUID' }
+        { field: 'RemoteCmpName' },
+        { field: 'RemoteCmpAddress' },
+        { field: 'RemoteCmpCountry' },
+        { field: 'RemoteCmpState' },
+        { field: 'RemoteCmpPincode' },
+        { field: 'RemoteCmpEmail' },
+        { field: 'RemoteCmpBaseCurrency' },
+        { field: 'RemoteCmpBooksDate' },
+        { field: 'GSTNo' },
+        { field: 'PANNo' }
+
       ],
-      rowData: [],
-      filterRowData: []
+      rowData: []
     };
+
+  }
+
+  handleStateChange = (e) => {
+    const { name, value } = e.target;
+    const { requiData } = this.state;
+    requiData[name] = value;
+    this.setState({
+      requiData,
+    });
+  };
+
+  refreshData=()=>{
+    const { requiData } = this.state;
+    if (requiData) {
+      this.props.dispatch(companyAction.getCompanyById({ ID: requiData.ID }))
+    }
   }
 
   componentDidMount = () => {
@@ -44,23 +64,20 @@ class VoucherType extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-      if (this.props.get_company_data) {
-        this.setState({
-          rowData: this.props.get_company_data.Data,
-        })
-      }
+      this.setState({
+        rowData: this.props.get_company_data.Data,
+      })
     }
-    if (this.props.get_voucher_type_status !== prevProps.get_voucher_type_status && this.props.get_voucher_type_status == status.SUCCESS) {
-      if (this.props.voucher_type_list) {
+    if (this.props.get_company_id_status !== prevProps.get_company_id_status && this.props.get_company_id_status == status.SUCCESS) {
+      if (this.props.company_id_list) {
         this.setState({
-          filterRowData: this.props.voucher_type_list.Data,
+          filterRowData: this.props.company_id_list.Data,
         })
       }
     }
   }
   companyList = () => {
     const { rowData } = this.state
-
     if (rowData) {
       let retData = [];
       for (let i = 0; i < rowData.length; i++) {
@@ -76,33 +93,17 @@ class VoucherType extends Component {
       return retData;
     }
   }
-
-  handleStateChange = (e) => {
-    const { name, value } = e.target;
-    const { requiData } = this.state;
-    requiData[name] = value;
-    this.setState({
-      requiData,
-    });
-   
-  };
-  refreshData=()=>{
-    const { requiData } = this.state;
-    if (requiData) {
-      this.props.dispatch(voucherTypeAction.getVoucherTypeById({ CompanyID: requiData.CompanyID }))
-    }
-  }
-
   render() {
-    const { requiData, columnDefs } = this.state;
+    const { requiData, columnDefs, rowData, filterRowData } = this.state;
     return (
       <>
+      
         <div className="col-12 col-sm-12 col-md-4">
           <div className="form-group form-group-common d-flex">
             <FormControl className="select">
               <NativeSelect
-                name="CompanyID"
-                value={requiData.CompanyID}
+                name="ID"
+                value={requiData.ID}
                 onChange={this.handleStateChange}
               >
                 <option value="">-Select-</option>
@@ -114,23 +115,20 @@ class VoucherType extends Component {
             </Button>
           </div>
         </div>
-
-        <div >
-          <Table columnDefs={columnDefs} rowData={this.state.filterRowData} />
-        </div>
+        <Table columnDefs={columnDefs} rowData={filterRowData ? filterRowData : rowData} />
       </>
     );
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_voucher_type_status, voucher_type_list } = state.procurement;
+  const { get_company_data, get_company_status, company_id_list, get_company_id_status } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_voucher_type_status,
-    voucher_type_list
+    company_id_list,
+    get_company_id_status
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(VoucherType);
+const connectedLogin = connect(mapStateToProps)(Company);
 export default (connectedLogin);

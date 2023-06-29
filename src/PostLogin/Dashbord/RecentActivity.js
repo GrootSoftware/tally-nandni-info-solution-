@@ -13,7 +13,7 @@ class RecentActivity extends Component {
         }
     }
     componentDidMount() {
-        this.props.dispatch(recievedrfpAction.searchRecievedRFP())
+        // this.props.dispatch(recievedrfpAction.searchRecievedRFP())
     }
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.recieved_rfp_status !== this.props.recieved_rfp_status &&

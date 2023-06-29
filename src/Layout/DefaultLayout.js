@@ -28,9 +28,9 @@ class DefaultLayout extends Component {
   }
 
   componentDidMount() {
-    this.props.dispatch(departmentAction.getDepartment());
-    this.props.dispatch(requistionAction.getCurrency());
-    this.props.dispatch(emailActions.searchallemails({ 'search': 'inbox' }));
+    // this.props.dispatch(departmentAction.getDepartment());
+    // this.props.dispatch(requistionAction.getCurrency());
+    // this.props.dispatch(emailActions.searchallemails({ 'search': 'inbox' }));
     // this.props.dispatch(tabAction.add())
 
   }
@@ -39,10 +39,10 @@ class DefaultLayout extends Component {
     if ((this.props.search_all_email_status !== prevProps.search_all_email_status) &&
       this.props.search_all_email_status === status.SUCCESS) {
       if (this.props.search_all_email.object && this.props.search_all_email.object.length > 0 && this.props.search_all_email.type == 'inbox') {
-        this.props.dispatch(emailActions.searchallinboxemails(this.props.search_all_email.object))
+        // this.props.dispatch(emailActions.searchallinboxemails(this.props.search_all_email.object))
       }
       else {
-        this.props.dispatch(emailActions.searchallinboxemails(this.props.search_all_email.object))
+        // this.props.dispatch(emailActions.searchallinboxemails(this.props.search_all_email.object))
       }
     }
     if (JSON.stringify(prevProps.tab_Data) !== JSON.stringify(this.props.tab_Data)) {
@@ -170,10 +170,18 @@ class DefaultLayout extends Component {
               </Box> */}
 
 
-              <div className='mt-4'>
+              <div className=''>
                 <TabContext value={this.state.activeTab}>
                   <Box className="container " sx={{ width: '80%', typography: 'body1', bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={this.handleChange} variant="scrollable"
+                    <TabList onChange={this.handleChange}
+                      TabIndicatorProps={{
+                        style: {
+                          backgroundColor: "#1565c0", height: "10px",
+                          top: "45px"
+                        }
+                      }}
+                      textColor="secondary"
+                      variant="scrollable"
                       scrollButtons="auto"
                       aria-label="scrollable auto tabs example">
                       {this.state?.renderTabs.map((e, i) => (
@@ -184,7 +192,7 @@ class DefaultLayout extends Component {
                   </Box>
                   {this.state?.renderTabs.map((e, i) => (
                     <TabPanel value={e.path}>
-                    
+
                       <e.component />
                     </TabPanel>
                   )

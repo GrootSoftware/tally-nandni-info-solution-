@@ -28,7 +28,7 @@ function login(data) {
                                 user: response
                             }
                         }));
-                        localStorage.setItem("userData", JSON.stringify(response.Data[0]));
+                        localStorage.setItem("userData", JSON.stringify(response.UserData[0]));
                         alert.success(response.Message);
                         setTimeout(() => {
                             window.location.href = "/postlogin/dashboard";

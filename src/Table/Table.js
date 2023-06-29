@@ -36,7 +36,9 @@ class Table extends Component {
         },
       ],
      rowData: this.props.rowData,
+     pagination:false
     };
+   
   }
 
   onGridReady = (params) => {
@@ -61,18 +63,18 @@ class Table extends Component {
           }}
           className="ag-theme-alpine"
         >
-          <div>
+          {/* <div>
             <Button variant="outlined" className='mb-2' onClick={() => this.onBtExport()} >
               <img src={Excel} alt="" width={20} />
               <span className='ml-3' style={{color:"#6417c5"}}>Export to Excel</span>
             </Button>
-          </div>
-          <AgGridReact
+          </div> */}
+          <AgGridReact   
             columnDefs={this.state.columnDefs}
             defaultColDef={this.state.defaultColDef}
             sideBar={this.state.sideBar}
             rowGroupPanelShow={this.state.rowGroupPanelShow}
-            rowData={this.state.rowData}
+            rowData={this.props.rowData}
             pagination={true}
             onGridReady={this.onGridReady}
             onFirstDataRendered={this.onFirstDataRendered.bind(this)}
@@ -97,14 +99,6 @@ class Table extends Component {
 //   values: listOfDays,
 //   suppressSorting: true, // use provided order
 // };
-// function getRowData() {
-//   var weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-//   var rows = [];
-//   for (var i = 0; i < 200; i++) {
-//     var index = Math.floor(Math.random() * 5);
-//     rows.push({ days: weekdays[index] });
-//   }
-//   return rows;
-// }
+
 
 export default Table;

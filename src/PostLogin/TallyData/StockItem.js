@@ -18,9 +18,9 @@ import { connect } from 'react-redux';
 
 
 import { Button } from '@mui/material';
-import { stockGodownAction, stockGroupAction, stockUnitAction, voucherTypeAction } from '../../_actions';
+import { stockGodownAction, stockGroupAction, stockItemAction } from '../../_actions';
 
-class VoucherType extends Component {
+class StockItem extends Component {
   constructor(props) {
     super(props);
 
@@ -29,9 +29,8 @@ class VoucherType extends Component {
         CompanyID: null
       },
       columnDefs: [
-        { field: 'CompanyName' },
-        { field: 'Name' },
-        { field: 'GUID' }
+        { field: 'StockItemID' },
+        { field: 'PartNo' }
       ],
       rowData: [],
       filterRowData: []
@@ -50,10 +49,10 @@ class VoucherType extends Component {
         })
       }
     }
-    if (this.props.get_voucher_type_status !== prevProps.get_voucher_type_status && this.props.get_voucher_type_status == status.SUCCESS) {
-      if (this.props.voucher_type_list) {
+    if (this.props.get_stock_item_status !== prevProps.get_stock_item_status && this.props.get_stock_item_status == status.SUCCESS) {
+      if (this.props.stock_item_list) {
         this.setState({
-          filterRowData: this.props.voucher_type_list.Data,
+          filterRowData: this.props.stock_item_list.StockPartNoData,
         })
       }
     }
@@ -89,7 +88,7 @@ class VoucherType extends Component {
   refreshData=()=>{
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(voucherTypeAction.getVoucherTypeById({ CompanyID: requiData.CompanyID }))
+      this.props.dispatch(stockItemAction.getStockItemById({ CompanyID: requiData.CompanyID }))
     }
   }
 
@@ -123,14 +122,14 @@ class VoucherType extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_voucher_type_status, voucher_type_list } = state.procurement;
+  const { get_company_data, get_company_status, get_stock_item_status, stock_item_list } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_voucher_type_status,
-    voucher_type_list
+    get_stock_item_status,
+    stock_item_list
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(VoucherType);
+const connectedLogin = connect(mapStateToProps)(StockItem);
 export default (connectedLogin);

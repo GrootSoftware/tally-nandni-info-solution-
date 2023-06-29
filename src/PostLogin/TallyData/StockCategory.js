@@ -16,11 +16,10 @@ import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
 
-
+import { groupAction, lederAction, stockCategoryAction } from '../../_actions';
 import { Button } from '@mui/material';
-import { stockGodownAction, stockGroupAction, stockUnitAction, voucherTypeAction } from '../../_actions';
 
-class VoucherType extends Component {
+class StockCategory extends Component {
   constructor(props) {
     super(props);
 
@@ -50,10 +49,10 @@ class VoucherType extends Component {
         })
       }
     }
-    if (this.props.get_voucher_type_status !== prevProps.get_voucher_type_status && this.props.get_voucher_type_status == status.SUCCESS) {
-      if (this.props.voucher_type_list) {
+    if (this.props.get_stock_category_status !== prevProps.get_stock_category_status && this.props.get_stock_category_status == status.SUCCESS) {
+      if (this.props.stock_category_list) {
         this.setState({
-          filterRowData: this.props.voucher_type_list.Data,
+          filterRowData: this.props.stock_category_list.Data,
         })
       }
     }
@@ -89,7 +88,7 @@ class VoucherType extends Component {
   refreshData=()=>{
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(voucherTypeAction.getVoucherTypeById({ CompanyID: requiData.CompanyID }))
+      this.props.dispatch(stockCategoryAction.getStockCategoryById({ CompanyID: requiData.CompanyID }))
     }
   }
 
@@ -123,14 +122,14 @@ class VoucherType extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_voucher_type_status, voucher_type_list } = state.procurement;
+  const { get_company_data, get_company_status, get_stock_category_status, stock_category_list } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_voucher_type_status,
-    voucher_type_list
+    get_stock_category_status,
+    stock_category_list
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(VoucherType);
+const connectedLogin = connect(mapStateToProps)(StockCategory);
 export default (connectedLogin);

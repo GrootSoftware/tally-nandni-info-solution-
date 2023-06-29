@@ -87,3 +87,21 @@ body,
   background-color: rgb(34, 34, 147);
   color: #f1ebeb; */
 }
+
+.alert-white-button {
+  /* background: white; */
+  min-width: 140px;
+  color: #fff;
+  border: none;
+  padding: 7px 20px;
+  border-radius: 4px;
+  margin-right: 10px;
+  display: inline-block;
+  text-align: center; }
+  .alert-white-button:hover, .alert-white-button:focus {
+     }
+  .alert-white-button i {
+    color: #fff !important; }
+
+   
+    

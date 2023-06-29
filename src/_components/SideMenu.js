@@ -175,7 +175,7 @@ class SideMenu extends Component {
             <MenuIcon />
           </IconButton>
         </div>
-        <div className={isOpen ? "sidebar open" : "sidebar"}>
+        <div className={isOpen ? "sidebar open" : "sidebar"} style={{background:"aliceblue"}}>
           <div className="d-block logo-container">
             <div className="row">
               <div className="col-10">

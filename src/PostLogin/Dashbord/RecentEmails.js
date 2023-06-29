@@ -10,7 +10,7 @@ import IconButton from '@material-ui/core/IconButton';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
-import { emailActions } from '../../_actions/email.actions'
+// import { emailActions } from '../../_actions/email.actions'
 import { connect } from 'react-redux'
 import { status } from "../../_constants";
 import { commonFunctions } from '../../_utilities/commonFunctions'
@@ -34,7 +34,7 @@ class RecentEmails extends Component {
 
   componentDidMount() {
     this.setState({ selectedMailData: this.state.recentEmailData.filter(x => x.type === this.state.selectedType) })
-    this.props.dispatch(emailActions.searchallemails({ 'search': this.state.selectedType }));
+    // this.props.dispatch(emailActions.searchallemails({ 'search': this.state.selectedType }));
 
   }
 
@@ -44,7 +44,7 @@ class RecentEmails extends Component {
       if (this.props.search_all_email && this.props.search_all_email.length > 0) {
         let data = this.props.search_all_email;
         if (data && data.length > 0) {
-          this.props.dispatch(emailActions.searchallinboxemails(data))
+          // this.props.dispatch(emailActions.searchallinboxemails(data))
           for (let i = 0; i < data.length; i++) {
             data[i].isChecked = false;
             data[i].showIcon = false;
@@ -61,7 +61,7 @@ class RecentEmails extends Component {
     this.setState({
       selectedType: type,
     });
-    this.props.dispatch(emailActions.searchallemails({ 'search': type }));
+    // this.props.dispatch(emailActions.searchallemails({ 'search': type }));
   }
 
   showIcon = (index) => {

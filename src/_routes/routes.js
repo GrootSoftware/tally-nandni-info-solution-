@@ -1,28 +1,33 @@
 import React from 'react';
 const Dashbord = React.lazy(() => import('../PostLogin/Dashbord'));
-const ListPartyMaster = React.lazy(() => import('../PostLogin/TallyData/ListPartyMaster'));
-const ListStockMaster = React.lazy(() => import('../PostLogin/TallyData/ListStockMaster'));
-const ListStockGroup = React.lazy(() => import('../PostLogin/TallyData/ListStockGroup'));
-const ListStockCategory = React.lazy(() => import('../PostLogin/TallyData/ListStockCategory'));
-const Uom = React.lazy(() => import('../PostLogin/TallyData/Uom'));
-const Godown = React.lazy(() => import('../PostLogin/TallyData/Godown'));
-const Group = React.lazy(() => import('../PostLogin/TallyData/Group'));
-const VoucherType = React.lazy(() => import('../PostLogin/TallyData/VoucherType'));
-const Transactions = React.lazy(() => import('../PostLogin/TallyData/Transactions'));
+const Company = React.lazy(() => import('../PostLogin/TallyData/Company'));
+const CostCategory = React.lazy(() => import('../PostLogin/TallyData/CostCategory'));
 const CostCenter = React.lazy(() => import('../PostLogin/TallyData/CostCenter'));
+const Currency = React.lazy(() => import('../PostLogin/TallyData/Currency'));
+const Group = React.lazy(() => import('../PostLogin/TallyData/Group'));
+const Ledger = React.lazy(() => import('../PostLogin/TallyData/Ledger'));
+const StockCategory = React.lazy(() => import('../PostLogin/TallyData/StockCategory'));
+const StockGodown = React.lazy(() => import('../PostLogin/TallyData/StockGodown'));
+const StockGroup = React.lazy(() => import('../PostLogin/TallyData/StockGroup'));
+const StockItem = React.lazy(() => import('../PostLogin/TallyData/StockItem'));
+const StockUnit = React.lazy(() => import('../PostLogin/TallyData/StockUnit'));
+const VoucherType = React.lazy(() => import('../PostLogin/TallyData/VoucherType'));
+
 
 const routes = [
     { path: '/postlogin/dashboard', exact: true, name: 'Dashbord', component: Dashbord },
-    { path: '/postlogin/tally-party-master', exact: true, name: 'ListPartyMaster', component: ListPartyMaster },
-    { path: '/postlogin/stock_master', exact: true, name: 'ListStockMaster', component: ListStockMaster },
-    { path: '/postlogin/stock_group', exact: true, name: 'ListStockGroup', component: ListStockGroup },
-    { path: '/postlogin/stock_category', exact: true, name: 'ListStockCategory', component: ListStockCategory },
-    { path: '/postlogin/uom', exact: true, name: 'Uom', component: Uom },
-    { path: '/postlogin/godown', exact: true, name: 'Godown', component: Godown },
+    { path: '/postlogin/company', exact: true, name: 'Company', component: Company },
+    { path: '/postlogin/cost_category', exact: true, name: 'Cost Category', component: CostCategory },
+    { path: '/postlogin/cost_center', exact: true, name: 'Cost Center', component: CostCenter },
+    { path: '/postlogin/currency', exact: true, name: 'Currency', component: Currency },
     { path: '/postlogin/group', exact: true, name: 'Group', component: Group },
-    { path: '/postlogin/voucher_type', exact: true, name: 'VoucherType', component: VoucherType },
-    { path: '/postlogin/transactions', exact: true, name: 'Transactions', component: Transactions },
-    { path: '/postlogin/cost_center', exact: true, name: 'CostCenter', component: CostCenter },
+    { path: '/postlogin/ledger', exact: true, name: 'Ledger', component: Ledger },
+    { path: '/postlogin/stock_category', exact: true, name: 'Stock Category', component: StockCategory },
+    { path: '/postlogin/stock_godown', exact: true, name: 'Stock Godown', component: StockGodown },
+    { path: '/postlogin/stock_group', exact: true, name: 'Stock Group', component: StockGroup },
+    { path: '/postlogin/stock_item', exact: true, name: 'Stock Item', component: StockItem },
+    { path: '/postlogin/stock_unit', exact: true, name: 'Stock Unit', component: StockUnit },
+    { path: '/postlogin/voucher_type', exact: true, name: 'Voucher Type', component: VoucherType },
 
 
 

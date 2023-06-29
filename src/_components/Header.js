@@ -40,7 +40,7 @@ class Header extends Component {
     }
   }
   componentDidMount() {
-    this.props.dispatch(homeAction.Notificationdata());
+    // this.props.dispatch(homeAction.Notificationdata());
   }
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_notification_status !== prevProps.get_notification_status && this.props.get_notification_status === status.SUCCESS) {
@@ -154,7 +154,7 @@ class Header extends Component {
     const { selected, notification, profile, searchToggle, firstName } = this.state;
     return (
       <>
-        <div className="navbar-custom">
+        <div className="navbar-custom" style={{background:"aliceblue"}}>
           <div className="header">
             <div className="row justify-content-center align-items-center">
               <div className="col-xl-4 d-none d-xl-block">
