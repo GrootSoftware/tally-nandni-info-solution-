@@ -58,7 +58,7 @@ class SideMenu extends Component {
   changeActiveTabColor = (location) => {
     const pathname = location?.pathname;
     for (let i = 0; i < navigation.length; i++) {
-      if (pathname.indexOf(navigation[i].to) !== -1) {
+      if (pathname?.indexOf(navigation[i].to) !== -1) {
         this.setState({
           activeTab: i
         });
@@ -91,7 +91,7 @@ class SideMenu extends Component {
 
 
   handelSideNav = () => {
-    if (window.innerWidth < 922) { this.handleDrawerOpenClose() } { }
+    if (window?.innerWidth < 922) { this.handleDrawerOpenClose() } { }
   }
 
   displaySidebarMenu = () => {
@@ -102,13 +102,13 @@ class SideMenu extends Component {
       let nav = navigation[i];
       
       retData.push(
-        <li className="sidebar-menu" key={nav.name} onClick={this.handelSideNav}>
-          <ListItem className={activeTab === i ? "active" : ""} tabIndex="0" component={Link} to={nav.to} onClick={() => this.setActiveTab(i, nav.to)}>
+        <li className="sidebar-menu" key={nav?.name} onClick={this.handelSideNav}>
+          <ListItem className={activeTab === i ? "active" : ""} tabIndex="0" component={Link!=null && Link} to={nav?.to} onClick={() => this.setActiveTab(i, nav.to)}>
             <ListItemIcon className="icon">
               {nav.icon}
             </ListItemIcon>
-            <ListItemText primary={nav.name} className="name" />
-            {nav.name === 'Email' && emailLength > 0 && <span className="float-right length">{emailLength}</span>}
+            <ListItemText primary={nav&& nav?.name} className="name" />
+            {/* {nav.name === 'Email' && emailLength > 0 && <span className="float-right length">{emailLength}</span>} */}
           </ListItem>
           {nav.children &&
             <div className="float-right arrow" onClick={e => this.setOpenClose(e, i)}>

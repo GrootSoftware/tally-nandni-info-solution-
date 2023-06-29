@@ -13,7 +13,8 @@ import Box from '@mui/material/Box';
 import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
-
+import CloseIcon from "@material-ui/icons/Close";
+import { IconButton } from "@material-ui/core";
 // import '../assets/tabs.css'
 
 class DefaultLayout extends Component {
@@ -97,11 +98,9 @@ class DefaultLayout extends Component {
     });
   }
 
-  handleRemoveTab = (i) => {
+  handleRemoveTab = (e, i) => {
+    e.stopPropagation();
     const tabs = this.props?.tab_Data?.tabs || []
-
-
-
     if (i === tabs.length - 1) {
       tabs.splice(i, 1)
       this.props.dispatch(tabAction.add([...tabs], tabs[i - 1]))
@@ -176,7 +175,7 @@ class DefaultLayout extends Component {
                     <TabList onChange={this.handleChange}
                       TabIndicatorProps={{
                         style: {
-                          backgroundColor: "#1565c0", height: "10px",
+                          backgroundColor: "#1565c0", height: "4px",
                           top: "45px"
                         }
                       }}
@@ -185,9 +184,18 @@ class DefaultLayout extends Component {
                       scrollButtons="auto"
                       aria-label="scrollable auto tabs example">
                       {this.state?.renderTabs.map((e, i) => (
-                        <Tab label={e.name} value={e.path} key={i} />
+                        <Tab
+                          label={<span>{e.name} <IconButton
+                            component="div"
+                            onClick={e => this.handleRemoveTab(e, i)}
+                          >
+                            <CloseIcon />
+                          </IconButton></span>} value={e.path} key={i}
+
+                        />
 
                       ))}
+                      {/* <button onClick={(e) => this.handleRemoveTab(e,i)}>X</button> */}
                     </TabList>
                   </Box>
                   {this.state?.renderTabs.map((e, i) => (

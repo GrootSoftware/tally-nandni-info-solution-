@@ -8,8 +8,8 @@ import routes from '../_routes/loginRoutes';
 class LoginLayout extends Component {
   constructor(props) {
     super(props);
-    this.props.history.listen((location, action) => {
-      GA.dispatchGAEvent(eventCategories.USER, eventActions.PAGEVIEW, `page=${location.pathname}`);
+    this?.props?.history.listen((location, action) => {
+      GA.dispatchGAEvent(eventCategories.USER, eventActions.PAGEVIEW, `page=${location?.pathname}`);
     });
   }
   createRoutes = () => {
@@ -17,9 +17,9 @@ class LoginLayout extends Component {
       return (route.component) ? (
         <Route
           key={index}
-          path={route.path}
-          exact={route.exact}
-          name={route.name}
+          path={route?.path}
+          exact={route?.exact}
+          name={route?.name}
           render={props => (
             <route.component {...props} />
           )} />
