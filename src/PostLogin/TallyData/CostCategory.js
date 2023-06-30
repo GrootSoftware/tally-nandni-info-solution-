@@ -100,7 +100,7 @@ class CostCategory extends Component {
                 name="CompanyID"
                 value={requiData.CompanyID}
                 onChange={this.handleStateChange}
-                style={{border:'1px solid grey'}}
+                style={{border:'1px solid purple',borderRadius:'3px'}}
               >
                 <option value="">-Select-</option>
                 {this.companyList()}
