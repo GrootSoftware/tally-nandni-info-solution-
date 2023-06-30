@@ -17,6 +17,7 @@ import CloseIcon from "@material-ui/icons/Close";
 import { IconButton } from "@material-ui/core";
 // import '../assets/tabs.css'
 import '../assets/login.css'
+import { ThemeProvider, createTheme } from '@mui/material';
 class DefaultLayout extends Component {
   constructor(props) {
     super(props);
@@ -111,6 +112,43 @@ class DefaultLayout extends Component {
 
   }
 
+  // Create a custom theme
+  theme = createTheme({
+    components: {
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            boxShadow: "0px 0px 8px -3px black",
+            background: "white",
+            borderTopLeftRadius: "15% 100%",
+            borderTopRightRadius: "15% 100%",
+            borderBottomRightRadius: "7px",
+            borderBottomLeftRadius: "7px",
+            minHeight: "40px",
+            margin: "12px 0",
+            marginRight: "-5px",
+            '&.Mui-selected': {
+              color: 'white', // Change the text color of the active tab
+              backgroundColor: '#1565c0', // Change the background color of the active tab
+            },
+          },
+        },
+      },
+    },
+  });
+
+  listTheme = createTheme({
+    components: {
+      MuiTab: {
+        styleOverrides: {
+          root: {
+            padding: "12px"
+          },
+        },
+      },
+    },
+  });
+
   render() {
 
     return (
@@ -171,30 +209,32 @@ class DefaultLayout extends Component {
 
               <div className=''>
                 <TabContext value={this.state.activeTab}>
-                  <Box sx={{ width: '100%', typography: 'body1', bgcolor: 'background.paper', border: 3, borderStyle: "dotted", borderColor: '#6417C5' }}>
-                    <TabList onChange={this.handleChange}
-                      TabIndicatorProps={{
-                        style: {
-                          backgroundColor: "#1565c0", height: "4px",
-                          top: "65px"
-                        }
-                      }}
-                      textColor="secondary"
-                      variant="scrollable"
-                      scrollButtons="auto"
-                      aria-label="scrollable auto tabs example">
-                      {this.state?.renderTabs.map((e, i) => (
-                        <Tab
-                          label={<span>{e.name}
-                            <CloseIcon onClick={(e) => this.handleRemoveTab(e, i)} className='closeBtn' />
-                          </span>} value={e.path} key={i}
+                  <ThemeProvider theme={this.listTheme}>
 
-                        />
+                    <Box sx={{ width: '100%', typography: 'body1' }}>
+                      <TabList onChange={this.handleChange}
+                        TabIndicatorProps={{
+                          style: {
+                            height: "0px"
+                          }
+                        }}
+                        textColor="secondary"
+                        variant="scrollable"
+                        scrollButtons="auto"
+                        aria-label="scrollable auto tabs example">
+                        {this.state?.renderTabs.map((e, i) => (
+                          <Tab theme={this.theme}
+                            label={<span className='single_tab'>{e.name}
+                              <CloseIcon onClick={(e) => this.handleRemoveTab(e, i)} className='closeBtn' />
+                            </span>} value={e.path} key={i}
 
-                      ))}
-                      {/* <button onClick={(e) => this.handleRemoveTab(e,i)}>X</button> */}
-                    </TabList>
-                  </Box>
+                          />
+
+                        ))}
+                        {/* <button onClick={(e) => this.handleRemoveTab(e,i)}>X</button> */}
+                      </TabList>
+                    </Box>
+                  </ThemeProvider>
                   {this.state?.renderTabs.map((e, i) => (
                     <TabPanel value={e.path}>
 

@@ -97,10 +97,10 @@ class StockGodown extends Component {
     const { requiData, columnDefs } = this.state;
     return (
       <>
-        <div style={{ border: "2px dashed #6417C5", padding: "20px" }}>
+        <div style={{ border: "1px solid #9c82bd", padding: "20px", borderRadius:"10px" }}>
           <div className="col-12 col-sm-12 col-md-4">
             <div className="form-group form-group-common d-flex">
-              <FormControl className="select" style={{border: "2px dashed #6417C5"}}>
+              <FormControl className="select" style={{border: "1px solid #9c82bd"}}>
                 <NativeSelect
                   name="CompanyID"
                   value={requiData.CompanyID}
