@@ -154,7 +154,7 @@ class Header extends Component {
     const { selected, notification, profile, searchToggle, firstName } = this.state;
     return (
       <>
-        <div className="navbar-custom" style={{background:"aliceblue"}}>
+        <div className="navbar-custom" style={{background:"aliceblue",borderBottom:"1px solid grey"}}>
           <div className="header">
             <div className="row justify-content-center align-items-center">
               <div className="col-xl-4 d-none d-xl-block">

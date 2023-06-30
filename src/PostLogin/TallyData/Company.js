@@ -105,13 +105,14 @@ class Company extends Component {
                 name="ID"
                 value={requiData.ID}
                 onChange={this.handleStateChange}
+                style={{border:'1px solid purple',borderRadius:'3px'}}
               >
-                <option value="">-Select-</option>
+                <option  value="">-Select-</option>
                 {this.companyList()}
               </NativeSelect>
             </FormControl>
-            <Button variant="contained"  className="alert-white-button ml-4" onClick={this.refreshData}>
-              <i className="fa fa-refresh"></i>&nbsp;&nbsp; Refresh
+            <Button variant="contained"  className="alert-white-button ml-5" onClick={this.refreshData}>
+              <i className="fa fa-refresh"></i>&nbsp;&nbsp;
             </Button>
           </div>
         </div>

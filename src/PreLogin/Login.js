@@ -119,7 +119,7 @@ class Login extends Component {
 
 
         <div className="login-wrapper">
-          <div className='mb-20 mt-3 ml-2'>
+          <div className='mb-20 mt-3 ml-5 '>
             <img src={Logo2} alt="" width="10%" />
           </div>
           <div id="formContent" className='mt-5' style={{ textAlign: 'center' }} >
@@ -193,8 +193,8 @@ class Login extends Component {
               <p>7597788711</p>
             </div>
           </div>
-          <div className='submit_footer_date'>
-            <p>2023 {'Copyright © '}Mayank Softwares Soltuion</p>
+          <div className='submit_footer_date '>
+            <p>2023{'Copyright © '}Mayank Softwares Soltuion</p>
           </div>
         </div>
       </>
