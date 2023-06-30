@@ -77,7 +77,9 @@ class SideMenu extends Component {
     }
 
     this.props.dispatch(tabAction.add([...tabArr], tabName))
-
+ this.setState({
+      activeTab: index,
+    });
   }
 
   setOpenClose = (e, index) => {

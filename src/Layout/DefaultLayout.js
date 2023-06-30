@@ -16,7 +16,7 @@ import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import CloseIcon from "@material-ui/icons/Close";
 import { IconButton } from "@material-ui/core";
 // import '../assets/tabs.css'
-
+import '../assets/login.css'
 class DefaultLayout extends Component {
   constructor(props) {
     super(props);
@@ -118,7 +118,7 @@ class DefaultLayout extends Component {
 
         <SideMenu {...this.props} />
         <Header {...this.props} />
-        <Suspense fallback={<Loader />}>
+        <Suspense>
           <div className="content-page">
             <div className="container-fluid">
 
@@ -171,12 +171,12 @@ class DefaultLayout extends Component {
 
               <div className=''>
                 <TabContext value={this.state.activeTab}>
-                  <Box className="container " sx={{ width: '80%', typography: 'body1', bgcolor: 'background.paper', borderBottom: 1, borderColor: 'divider' }}>
+                  <Box sx={{ width: '100%', typography: 'body1', bgcolor: 'background.paper', border: 3, borderStyle: "dotted", borderColor: '#6417C5' }}>
                     <TabList onChange={this.handleChange}
                       TabIndicatorProps={{
                         style: {
                           backgroundColor: "#1565c0", height: "4px",
-                          top: "45px"
+                          top: "65px"
                         }
                       }}
                       textColor="secondary"
@@ -185,12 +185,9 @@ class DefaultLayout extends Component {
                       aria-label="scrollable auto tabs example">
                       {this.state?.renderTabs.map((e, i) => (
                         <Tab
-                          label={<span>{e.name} <IconButton
-                            component="div"
-                            onClick={e => this.handleRemoveTab(e, i)}
-                          >
-                            <CloseIcon />
-                          </IconButton></span>} value={e.path} key={i}
+                          label={<span>{e.name}
+                            <CloseIcon onClick={(e) => this.handleRemoveTab(e, i)} className='closeBtn' />
+                          </span>} value={e.path} key={i}
 
                         />
 

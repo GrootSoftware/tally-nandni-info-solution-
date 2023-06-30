@@ -30,8 +30,8 @@ class CostCategory extends Component {
         { field: 'Name' },
         { field: 'GUID' }
       ],
-      rowData:[],
-      filterRowData:[]
+      rowData: [],
+      filterRowData: []
     };
   }
 
@@ -81,39 +81,40 @@ class CostCategory extends Component {
     this.setState({
       requiData,
     });
-   
+
   };
-  refreshData=()=>{
+  refreshData = () => {
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(costCategoryAction.getCostCategoryById({ CompanyID: requiData.CompanyID, ID:0 }))
+      this.props.dispatch(costCategoryAction.getCostCategoryById({ CompanyID: requiData.CompanyID, ID: 0 }))
     }
   }
   render() {
     const { requiData, columnDefs } = this.state;
     return (
       <>
-        <div className="col-12 col-sm-12 col-md-4">
-          <div className="form-group form-group-common d-flex">
-            <FormControl className="select">
-              <NativeSelect
-                name="CompanyID"
-                value={requiData.CompanyID}
-                onChange={this.handleStateChange}
-                style={{border:'1px solid purple',borderRadius:'3px'}}
-              >
-                <option value="">-Select-</option>
-                {this.companyList()}
-              </NativeSelect>
-            </FormControl>
-            <Button variant="contained"  className="alert-white-button ml-5" onClick={this.refreshData}>
-              <i className="fa fa-refresh"></i>&nbsp;&nbsp; 
-            </Button>
+        <div style={{ border: "2px dashed #6417C5", padding: "20px" }}>
+          <div className="col-12 col-sm-12 col-md-4">
+            <div className="form-group form-group-common d-flex">
+              <FormControl className="select" style={{border: "2px dashed #6417C5"}}>
+                <NativeSelect
+                  name="CompanyID"
+                  value={requiData.CompanyID}
+                  onChange={this.handleStateChange}
+                >
+                  <option value="">-Select-</option>
+                  {this.companyList()}
+                </NativeSelect>
+              </FormControl>
+              <Button variant="contained" className="alert-white-button ml-4" onClick={this.refreshData}>
+                <i className="fa fa-refresh"></i>
+              </Button>
+            </div>
           </div>
-        </div>
 
-        <div >
-          <Table columnDefs={columnDefs} rowData={this.props.cost_category_id_list?.Data} />
+          <div >
+            <Table columnDefs={columnDefs} rowData={this.props.cost_category_id_list?.Data} />
+          </div>
         </div>
       </>
     );

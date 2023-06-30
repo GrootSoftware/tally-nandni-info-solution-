@@ -13,7 +13,7 @@ import { connect } from 'react-redux';
 import EmailIcon from '@mui/icons-material/Email';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import '../assets/login.css';
-import {constant, constantErr} from '../Constant'
+import { constant, constantErr } from '../Constant'
 import { authActions } from '../_actions';
 import { alert } from '../_utilities';
 function Copyright() {
@@ -49,21 +49,21 @@ class Login extends Component {
 
   handleSubmit = (event) => {
     event.preventDefault();
-   
+
     // this.setState({
     //   isSubmitted: true
     // });
     const errorData = this.validate(true);
     if (errorData.isValid) {
-      const { username, password,active } = this.state;
+      const { username, password, active } = this.state;
       const sendData = {
         "USERMASTER": {
-        Ip:"",
-        UserName:username,
-        Password:password
-      }
-    };
-    // console.log("AAAAAAAAAAA",sendData)
+          Ip: "",
+          UserName: username,
+          Password: password
+        }
+      };
+      // console.log("AAAAAAAAAAA",sendData)
       this.props.dispatch(authActions.login(sendData));
     }
   };
@@ -85,14 +85,14 @@ class Login extends Component {
       if (!username) {
         retData.username = {
           isValid: false,
-          message:  alert.error("User Name is required")
+          message: alert.error("User Name is required")
         };
         isValid = false;
       }
       if (!password) {
         retData.password = {
           isValid: false,
-          message:alert.error("Password  is required")
+          message: alert.error("Password  is required")
         };
         isValid = false;
       }
@@ -113,13 +113,13 @@ class Login extends Component {
     const { user_login_status } = this.props;
     const errorData = this.validate(isSubmitted);
 
-   
+
     return (
       <>
 
 
         <div className="login-wrapper">
-          <div className='mb-20 mt-3 ml-5 '>
+          <div className='mb-20 mt-3 ml-2'>
             <img src={Logo2} alt="" width="10%" />
           </div>
           <div id="formContent" className='mt-5' style={{ textAlign: 'center' }} >
@@ -130,38 +130,45 @@ class Login extends Component {
 
               <div className="paper">
                 <form className="form" noValidate>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    id="username"
-                    label="User Name"
-                    name="username"
-                    autoComplete="username"
-                    autoFocus
-                    value={username}
-                    onChange={this.handleStateChange}
-                  />
-                  <span className="text-danger">
-                    {errorData.username.message}
-                  </span>
-                  <TextField
-                    variant="outlined"
-                    margin="normal"
-                    required
-                    fullWidth
-                    name="password"
-                    label="Password"
-                    type="password"
-                    id="password"
-                    autoComplete="current-password"
-                    value={password}
-                    onChange={this.handleStateChange}
-                  />
-                  <span className="text-danger">
-                    {errorData.password.message}
-                  </span>
+          
+
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      id="username"
+                      label="User Name"
+                      name="username"
+                      autoComplete="username"
+                      defaultValue="Small"
+                      size="small"
+                      autoFocus
+                      value={username}
+                      onChange={this.handleStateChange}
+                    />
+                    <span className="text-danger">
+                      {errorData.username.message}
+                    </span>
+                    <TextField
+                      variant="outlined"
+                      margin="normal"
+                      required
+                      fullWidth
+                      name="password"
+                      label="Password"
+                      type="password"
+                      id="password"
+                      defaultValue="Small"
+                      size="small"
+                      autoComplete="current-password"
+                      value={password}
+                      onChange={this.handleStateChange}
+                    />
+                    <span className="text-danger">
+                      {errorData.password.message}
+                    </span>
+                 
                   <Button
                     type="submit"
                     fullWidth
@@ -193,10 +200,26 @@ class Login extends Component {
               <p>7597788711</p>
             </div>
           </div>
-          <div className='submit_footer_date '>
-            <p>2023{'Copyright © '}Mayank Softwares Soltuion</p>
+          <div className='submit_footer_date'>
+            <p>2023 {'Copyright © '}Mayank Softwares Soltuion</p>
           </div>
         </div>
+
+        {/* <div className='submit_footer'>
+          <div className='submit_footer_text'>
+            < div className='submit_footer_img'>
+              <EmailIcon />
+              <p>dilipe9@gmail.com</p>
+            </div>
+            <div className='submit_footer_img'>
+              <LocalPhoneIcon />
+              <p>7597788711</p>
+            </div>
+          </div>
+          <div className='submit_footer_date'>
+            <p>2023 {'Copyright © '}Mayank Softwares Soltuion</p>
+          </div>
+        </div> */}
       </>
     )
   }

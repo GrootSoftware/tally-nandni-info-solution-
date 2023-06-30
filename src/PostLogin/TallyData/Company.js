@@ -51,7 +51,7 @@ class Company extends Component {
     });
   };
 
-  refreshData=()=>{
+  refreshData = () => {
     const { requiData } = this.state;
     if (requiData) {
       this.props.dispatch(companyAction.getCompanyById({ ID: requiData.ID }))
@@ -97,26 +97,26 @@ class Company extends Component {
     const { requiData, columnDefs, rowData, filterRowData } = this.state;
     return (
       <>
-      
-        <div className="col-12 col-sm-12 col-md-4">
-          <div className="form-group form-group-common d-flex">
-            <FormControl className="select">
-              <NativeSelect
-                name="ID"
-                value={requiData.ID}
-                onChange={this.handleStateChange}
-                style={{border:'1px solid purple',borderRadius:'3px'}}
-              >
-                <option  value="">-Select-</option>
-                {this.companyList()}
-              </NativeSelect>
-            </FormControl>
-            <Button variant="contained"  className="alert-white-button ml-5" onClick={this.refreshData}>
-              <i className="fa fa-refresh"></i>&nbsp;&nbsp;
-            </Button>
+        <div style={{ border: "2px dashed #6417C5", padding: "20px" }}>
+          <div className="col-12 col-sm-12 col-md-4">
+            <div className="form-group form-group-common d-flex">
+              <FormControl className="select" style={{border: "2px dashed #6417C5"}}>
+                <NativeSelect
+                  name="ID"
+                  value={requiData.ID}
+                  onChange={this.handleStateChange}
+                >
+                  <option value="">-Select-</option>
+                  {this.companyList()}
+                </NativeSelect>
+              </FormControl>
+              <Button variant="contained" className="alert-white-button ml-4" onClick={this.refreshData}>
+                <i className="fa fa-refresh"></i>
+              </Button>
+            </div>
           </div>
+          <Table columnDefs={columnDefs} rowData={filterRowData ? filterRowData : rowData} />
         </div>
-        <Table columnDefs={columnDefs} rowData={filterRowData ? filterRowData : rowData} />
       </>
     );
   }

@@ -24,6 +24,9 @@ class Table extends Component {
         enablePivot: true,
         enableValue: true,
       },
+      defaultColDef: {
+        resizable: true,
+      },
       sideBar: {
         toolPanels: ['columns', 'filters'],
       },
@@ -60,6 +63,7 @@ class Table extends Component {
           style={{
             height: '100%',
             width: '100%',
+            
           }}
           className="ag-theme-alpine"
         >

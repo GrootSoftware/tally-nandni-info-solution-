@@ -1,15 +1,15 @@
 import 'react-pro-sidebar/dist/css/styles.css'
 
 const _nav = [
- 
-         {
+
+    {
         _tag: 'SidebarNavItem',
         name: 'Dashboard',
         to: '/postlogin/dashboard',
         activeArr: ['/postlogin/dashboard'],
         open: false,
         icon: <i className="fas fa-tachometer-fast"></i>,
-    
+
     },
     {
         _tag: 'SidebarNavItem',
