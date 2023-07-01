@@ -29,8 +29,28 @@ class StockItem extends Component {
         CompanyID: null
       },
       columnDefs: [
-        { field: 'StockItemID' },
-        { field: 'PartNo' }
+        { field: 'CompanyID' },
+        { field: 'CompanyName' },
+        { field: 'Name' },
+        { field: 'NameMasterID' },
+        { field: 'GUID' },
+        { field: 'AlterID' },
+        { field: 'ParentGUID' },
+        { field: 'CategoryGUID' },
+        { field: 'Description' },
+        { field: 'Remarks' },
+        { field: 'CostingMethod' },
+        { field: 'IsBatchOn' },
+        { field: 'IsMfgOn' },
+        { field: 'IsExpiryOn' },
+        { field: 'UomGUID' },
+        { field: 'AltuomGUID' },
+        { field: 'Conversion' },
+        { field: 'Denominator' },
+        { field: 'OpeningBalance' },
+        { field: 'OpeningValue' },
+        { field: 'OpeningRate' }
+
       ],
       rowData: [],
       filterRowData: []

@@ -88,7 +88,7 @@ function getCompany(data) {
                         })
 
                     );
-                    alert.success(response.Message);
+                    // alert.success(response.Message);
                 } else {
                     dispatch(
                         dispatchFunction({

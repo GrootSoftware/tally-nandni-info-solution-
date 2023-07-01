@@ -28,10 +28,37 @@ class Ledger extends Component {
         CompanyID: null
       },
       columnDefs: [
-        { field: 'BillDate' },
-        { field: 'Name' },
-        { field: 'BillCreditPeriod' },
-        { field: 'OpeningBalance' },
+        { field: 'CompanyID' },
+        { field: 'CompanyName' },
+        { field: 'LedgerName' },
+        { field: 'LedgerMasterID' },
+        { field: 'GUID' },
+        { field: 'AlterID' },
+        { field: 'ParentGUID' },
+        { field: 'ParentName' },
+        { field: 'CurrencyName' },
+        { field: 'IsBillWiseOn' },
+        { field: 'IsCostCentresOn' },
+        { field: 'AffectsStock' },
+        { field: 'CreditDays' },
+        { field: 'CreditLimit' },
+        { field: 'MailingName' },
+        { field: 'FullAddress' },
+        { field: 'CountryName' },
+        { field: 'StateName' },
+        { field: 'Pincode' },
+        { field: 'ContactPerson' },
+        { field: 'MobileNo' },
+        { field: 'PhoneNo' },
+        { field: 'EmailId' },
+        { field: 'CCEmail' },
+        { field: 'PANNo' },
+        { field: 'GSTRegType' },
+        { field: 'GSTNo' },
+        { field: 'OpeningBalance' }
+
+
+
       ],
       rowData: [],
       filterRowData: []

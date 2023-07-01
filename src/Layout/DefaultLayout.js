@@ -125,6 +125,7 @@ class DefaultLayout extends Component {
             borderBottomRightRadius: "7px",
             borderBottomLeftRadius: "7px",
             minHeight: "40px",
+            padding:"0",
             margin: "12px 0",
             marginRight: "-5px",
             '&.Mui-selected': {
@@ -158,7 +159,7 @@ class DefaultLayout extends Component {
         <Header {...this.props} />
         <Suspense>
           <div className="content-page">
-            <div className="container-fluid">
+            <div className="">
 
               {/* {this.createRoutes()} */}
 
@@ -207,7 +208,7 @@ class DefaultLayout extends Component {
               </Box> */}
 
 
-              <div className=''>
+              <div className='' >
                 <TabContext value={this.state.activeTab}>
                   <ThemeProvider theme={this.listTheme}>
 
@@ -236,7 +237,7 @@ class DefaultLayout extends Component {
                     </Box>
                   </ThemeProvider>
                   {this.state?.renderTabs.map((e, i) => (
-                    <TabPanel value={e.path}>
+                    <TabPanel style={{padding:"0px"}} value={e.path}>
 
                       <e.component />
                     </TabPanel>

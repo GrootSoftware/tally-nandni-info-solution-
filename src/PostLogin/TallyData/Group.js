@@ -28,9 +28,17 @@ class Group extends Component {
         CompanyID: null
       },
       columnDefs: [
+        { field: 'CompanyID' },
         { field: 'CompanyName' },
         { field: 'Name' },
-        { field: 'GUID' }
+        { field: 'NameMasterID' },
+        { field: 'ReservedName' },
+        { field: 'GUID' },
+        { field: 'AlterID' },
+        { field: 'ParentGUID' },
+        { field: 'ParentName' },
+        { field: 'AccountType' }
+
       ],
       rowData: [],
       filterRowData: []

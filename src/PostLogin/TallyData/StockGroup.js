@@ -29,9 +29,13 @@ class StockGroup extends Component {
         CompanyID: null
       },
       columnDefs: [
+        { field: 'CompanyID' },
         { field: 'CompanyName' },
         { field: 'Name' },
-        { field: 'GUID' }
+        { field: 'NameMasterID' },
+        { field: 'GUID' },
+        { field: 'AlterID' },
+        { field: 'ParentGUID' }
       ],
       rowData: [],
       filterRowData: []

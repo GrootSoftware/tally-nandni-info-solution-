@@ -25,6 +25,7 @@ class Company extends Component {
         ID: null
       },
       columnDefs: [
+        { field: 'RemoteCmpID' },
         { field: 'RemoteCmpName' },
         { field: 'RemoteCmpAddress' },
         { field: 'RemoteCmpCountry' },
@@ -34,7 +35,14 @@ class Company extends Component {
         { field: 'RemoteCmpBaseCurrency' },
         { field: 'RemoteCmpBooksDate' },
         { field: 'GSTNo' },
-        { field: 'PANNo' }
+        { field: 'PANNo' },
+        { field: 'AdditionalField1' },
+        { field: 'AdditionalField2' },
+        { field: 'AdditionalField4' },
+        { field: 'AdditionalField5' }
+       
+
+
 
       ],
       rowData: []
@@ -97,7 +105,7 @@ class Company extends Component {
     const { requiData, columnDefs, rowData, filterRowData } = this.state;
     return (
       <>
-        <div style={{ border: "1px solid #9c82bd", padding: "20px", borderRadius:"10px" }}>
+        <div style={{ border: "1px solid #9c82bd", padding: "20px", borderRadius:"10px"  }}>
           <div className="col-12 col-sm-12 col-md-4">
             <div className="form-group form-group-common d-flex">
               <FormControl className="select" style={{border: "1px solid #9c82bd"}}>

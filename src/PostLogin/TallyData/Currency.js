@@ -27,9 +27,18 @@ class Currency extends Component {
         CompanyID: null
       },
       columnDefs: [
+        { field: 'CompanyID' },
         { field: 'CompanyName' },
         { field: 'Name' },
-        { field: 'GUID' }
+        { field: 'NameMasterID' },
+        { field: 'GUID' },
+        { field: 'AlterID' },
+        { field: 'MailingName' },
+        { field: 'OriginalName' },
+        { field: 'ExpandedSymbol' },
+        { field: 'DecimalSymbol' },
+        { field: 'DecimalPlaces' },
+        { field: 'DecimalPlacesForPrinting' }
       ],
       rowData: [],
       filterRowData: []
@@ -114,7 +123,7 @@ class Currency extends Component {
           </div>
 
           <div >
-            <Table columnDefs={columnDefs} rowData={this.props.currency_list?.Data} />
+            <Table columnDefs={columnDefs} rowData={this.state.filterRowData} />
           </div>
         </div>
       </>
