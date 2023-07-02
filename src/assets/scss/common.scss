@@ -443,26 +443,30 @@ select:focus-visible {
         width: 100%;
 
         &:focus {
-            box-shadow: 0 0 0 0.2rem rgba(127, 17, 224, 25%);
+            // box-shadow: 0 0 0 0.2rem rgba(127, 17, 224, 25%);
+           box-shadow: "0px 0px 8px -3px #2567c0";
         }
     }
 
     .select {
         width: 100%;
-        color: #90898a;
+        // color: #90898a;
         border-radius: 8px;
         background-color: #fff;
         vertical-align: middle;
+        border: 1px solid #dcdcdc;
 
         .MuiNativeSelect-select {
-            padding: 10px 10px;
+            padding: 14px 8px;
             font-size: 14px;
             line-height: 20px;
             font-weight: 500;
 
             &:focus {
                 border-radius: 8px;
-                box-shadow: 0 0 0 0.2rem rgba(127, 17, 224, 25%);
+                background: #fff;
+                box-shadow: 0 0 0 0.2rem hsla(247, 96%, 26%, 0.251);
+                 //box-shadow: "0 0 0 0.2rem #2567c0";
             }
         }
 
@@ -477,13 +481,12 @@ select:focus-visible {
         }
 
         .MuiSvgIcon-root {
-            color: #ffffff;
+            color: #000000;
             border-radius: 50%;
-            margin-right: 10px;
-            background: $buttons-bg;
-            top: calc(50% - 8px);
+            margin-right: 6px;
+            // background: $buttons-bg;
+            top: calc(48% - 10px);
             width: 0.7em;
-            height: 0.7em;
         }
 
     }

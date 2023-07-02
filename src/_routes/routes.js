@@ -15,7 +15,7 @@ const VoucherType = React.lazy(() => import('../PostLogin/TallyData/VoucherType'
 
 
 const routes = [
-    { path: '/postlogin/dashboard', exact: true, name: 'Dashboard', component: Dashbord },
+    { path: '/postlogin/dashboard', exact: true, name: 'Dashbord', component: Dashbord },
     { path: '/postlogin/company', exact: true, name: 'Company', component: Company },
     { path: '/postlogin/cost_category', exact: true, name: 'Cost Category', component: CostCategory },
     { path: '/postlogin/cost_center', exact: true, name: 'Cost Center', component: CostCenter },

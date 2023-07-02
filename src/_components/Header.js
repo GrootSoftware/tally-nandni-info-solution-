@@ -27,6 +27,10 @@ import { homeAction } from '../_actions'
 import { connect } from 'react-redux'
 import { status } from '../_constants';
 
+import FormControl from "@material-ui/core/FormControl";
+
+import { AutoCompleteComponent } from '../common/AutoCompleteComponent/AutoCompleteComponent';
+
 class Header extends Component {
   constructor(props) {
     super(props)
@@ -150,24 +154,40 @@ class Header extends Component {
     localStorage.clear();
     window.location.href = "/";
   }
+
+  handleAutoSelect =(e)=>{
+  console.log("e===>",e);
+  }
+
   render() {
     const { selected, notification, profile, searchToggle, firstName } = this.state;
     return (
       <>
-        <div className="navbar-custom" style={{background:"aliceblue"}}>
+        <div className="navbar-custom">
           <div className="header">
             <div className="row justify-content-center align-items-center">
-              <div className="col-xl-4 d-none d-xl-block">
-                <div className="app-search">
-                  {/* <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Search here" />
-                    <button><SearchIcon /></button>
-                  </div> */}
-                </div>
+              <div className="col-4">
+               <span className='company-name-top'>TALLY DATA WAREHOUSE</span>
               </div>
-              <div className="col-xl-8 col-12">
+              <div className="col-xl-8 col-lg-12">
+                {/* <div className='row'> */}
                 <div className="d-block text-right header-notification">
+                  {/* <div className='col-xl-7'> */}
+                  {/* <AutoCompleteComponent /> */}
+                  {/* </div> */}
+                  {/* <div className='col-xl-5 d-flex justify-content-ent align-items-center'> */}
+                 
+                  <div className='row header-auto-select-component'> 
+                  {/* <div className="col-8"> */}
+                  <FormControl className='seletc-auto-complete'>
+                  <AutoCompleteComponent 
+                   handleAutoSelect={this.handleAutoSelect}
+                  />
+                  </FormControl>
+                  {/* </div> */}
+                  {/* <div className="col-4 text-right"> */}
                   <div className="notification-user">
+                 
                     <ul>
                       <li>
                         <Avatar onClick={this.openLogOutModel} alt="Remy Sharp" src={UserImg} className="" />
@@ -186,17 +206,18 @@ class Header extends Component {
                       ></div>
                       <div className="profile-menu">
                         <ul>
-                          {/* <li><AccountCircleIcon className="menu-icon" />Account</li>
-                          <li><SettingsIcon className="menu-icon" />Settings</li>
-                          <li><SportsSoccerIcon className="menu-icon" />Support</li>
-                          <li><LockOutlinedIcon className="menu-icon" />Lock</li> */}
                           <li onClick={this.logout}><ExitToAppOutlinedIcon className="menu-icon" />Logout</li>
                         </ul>
                       </div>
                     </>)}
                   </div>
+                  </div>
+                  {/* </div> */}
+                  {/* </div> */}
                 </div>
-              </div>
+              {/* </div> */}
+</div>
+
             </div>
           </div>
         </div>

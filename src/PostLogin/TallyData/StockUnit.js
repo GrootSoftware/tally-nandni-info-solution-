@@ -20,6 +20,8 @@ import { connect } from 'react-redux';
 import { Button } from '@mui/material';
 import { stockGodownAction, stockGroupAction, stockUnitAction } from '../../_actions';
 
+import { REFRESH_ICON } from '../../constant/Images';
+
 class StockUnit extends Component {
   constructor(props) {
     super(props);
@@ -29,7 +31,6 @@ class StockUnit extends Component {
         CompanyID: null
       },
       columnDefs: [
-        { field: 'CompanyID' },
         { field: 'CompanyName' },
         { field: 'Name' },
         { field: 'NameMasterID' },
@@ -103,10 +104,10 @@ class StockUnit extends Component {
     const { requiData, columnDefs } = this.state;
     return (
       <>
-        <div style={{ border: "1px solid #9c82bd", padding: "20px", borderRadius:"10px" }}>
+        <div className='form-container'>
           <div className="col-12 col-sm-12 col-md-4">
             <div className="form-group form-group-common d-flex">
-              <FormControl className="select" style={{border: "1px solid #9c82bd"}}>
+              <FormControl className="select">
                 <NativeSelect
                   name="CompanyID"
                   value={requiData.CompanyID}
@@ -116,8 +117,8 @@ class StockUnit extends Component {
                   {this.companyList()}
                 </NativeSelect>
               </FormControl>
-              <Button variant="contained" className="alert-white-button ml-4" onClick={this.refreshData}>
-                <i className="fa fa-refresh"></i>
+              <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
+              <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>
             </div>
           </div>

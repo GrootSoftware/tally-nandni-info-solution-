@@ -8,26 +8,14 @@ import Box from '@material-ui/core/Box';
 import Logo from '../assets/images/logo.png';
 import Logo2 from '../assets/images/logo-2.png';
 import { status, eventActions, eventCategories } from '../_constants';
-import { commonFunctions, GA } from '../_utilities';
 import { connect } from 'react-redux';
 import EmailIcon from '@mui/icons-material/Email';
 import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import '../assets/login.css';
-import { constant, constantErr } from '../Constant'
 import { authActions } from '../_actions';
 import { alert } from '../_utilities';
-function Copyright() {
-  return (
-    <Typography variant="body2" color="textSecondary" align="center">
-      {'Copyright © '}
-      <Link color="inherit" href="#">
-        nandini
-      </Link>{' '}
-      {new Date().getFullYear()}
-      {'.'}
-    </Typography>
-  );
-}
+
+import { WHITE_COPY_RIGHT} from "../constant/Images"
 
 class Login extends Component {
   constructor() {
@@ -101,13 +89,6 @@ class Login extends Component {
     return retData;
   };
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (prevProps.user_login_status !== this.props.user_login_status && this.props.user_login_status === status.SUCCESS) {
-  //       localStorage.setItem("userData", JSON.stringify(this.props.user));
-  //       this.props.history.push('/postlogin/dashboard');
-  //   }
-  // }
-
   render() {
     const { username, password, isSubmitted } = this.state;
     const { user_login_status } = this.props;
@@ -122,16 +103,12 @@ class Login extends Component {
           <div className='mb-20 mt-3 ml-2'>
             <img src={Logo2} alt="" width="10%" />
           </div>
-          <div id="formContent" className='mt-5' style={{ textAlign: 'center' }} >
-            <Box className='mb-2'>
-              <img src={Logo} alt="" style={{ width: "200px", textAlign: 'center' }} />
+          <div id="formContent" className='mt-5 formContent' >
+            <Box className='mt-2 mb-3 d-flex justify-content-center align-items-center'>
+              <img src={Logo} alt="" style={{ width: "260px"}} />
             </Box>
             <Container component="main" maxWidth="xs">
-
-              <div className="paper">
                 <form className="form" noValidate>
-          
-
                     <TextField
                       variant="outlined"
                       margin="normal"
@@ -181,7 +158,6 @@ class Login extends Component {
                     Sign In
                   </Button>
                 </form>
-              </div>
             </Container>
           </div>
           <Box mt={6}>
@@ -201,25 +177,9 @@ class Login extends Component {
             </div>
           </div>
           <div className='submit_footer_date'>
-            <p>2023 {'Copyright © '}Mayank Softwares Soltuion</p>
+            <p>2023 <img src={WHITE_COPY_RIGHT} alt="" width={"20"}/>  Mayank Softwares Solution</p>
           </div>
         </div>
-
-        {/* <div className='submit_footer'>
-          <div className='submit_footer_text'>
-            < div className='submit_footer_img'>
-              <EmailIcon />
-              <p>dilipe9@gmail.com</p>
-            </div>
-            <div className='submit_footer_img'>
-              <LocalPhoneIcon />
-              <p>7597788711</p>
-            </div>
-          </div>
-          <div className='submit_footer_date'>
-            <p>2023 {'Copyright © '}Mayank Softwares Soltuion</p>
-          </div>
-        </div> */}
       </>
     )
   }

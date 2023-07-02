@@ -18,6 +18,9 @@ import { IconButton } from "@material-ui/core";
 // import '../assets/tabs.css'
 import '../assets/login.css'
 import { ThemeProvider, createTheme } from '@mui/material';
+
+import { makeStyles } from "@material-ui/core/styles"
+
 class DefaultLayout extends Component {
   constructor(props) {
     super(props);
@@ -49,7 +52,7 @@ class DefaultLayout extends Component {
     }
     if (JSON.stringify(prevProps.tab_Data) !== JSON.stringify(this.props.tab_Data)) {
 
-      this.handleTabDataChange();
+       this.handleTabDataChange();
     }
   }
 
@@ -91,6 +94,7 @@ class DefaultLayout extends Component {
   // };
 
   handleChange = (event, newValue) => {
+    //alert("h-change")
     event.preventDefault();
     console.log(newValue)
     this.setState({
@@ -100,8 +104,11 @@ class DefaultLayout extends Component {
   }
 
   handleRemoveTab = (e, i) => {
+   // alert("hii")
+    console.log(e, i);
     e.stopPropagation();
     const tabs = this.props?.tab_Data?.tabs || []
+    console.log("tab", tabs);
     if (i === tabs.length - 1) {
       tabs.splice(i, 1)
       this.props.dispatch(tabAction.add([...tabs], tabs[i - 1]))
@@ -118,15 +125,15 @@ class DefaultLayout extends Component {
       MuiTab: {
         styleOverrides: {
           root: {
-            boxShadow: "0px 0px 8px -3px black",
+            boxShadow: "0px 0px 8px -3px #2567c0",
             background: "white",
+            borderColor:"#e4e4e4",
             borderTopLeftRadius: "15% 100%",
             borderTopRightRadius: "15% 100%",
             borderBottomRightRadius: "7px",
             borderBottomLeftRadius: "7px",
-            minHeight: "40px",
-            padding:"0",
-            margin: "12px 0",
+            minHeight: "47px",
+            marginTop: "10px",
             marginRight: "-5px",
             '&.Mui-selected': {
               color: 'white', // Change the text color of the active tab
@@ -143,12 +150,13 @@ class DefaultLayout extends Component {
       MuiTab: {
         styleOverrides: {
           root: {
-            padding: "12px"
+            // padding: "12px"
           },
         },
       },
     },
   });
+
 
   render() {
 
@@ -159,56 +167,8 @@ class DefaultLayout extends Component {
         <Header {...this.props} />
         <Suspense>
           <div className="content-page">
-            <div className="">
-
-              {/* {this.createRoutes()} */}
-
-              {/* <Tabs>
-                <TabList>
-                  {this.state?.renderTabs.map((e, i) => (
-                    <Tab key={i}>{e.name}</Tab>
-                  ))}
-                </TabList>
-
-
-                {this.state?.renderTabs.map((e, i) => (
-                  <TabPanel key={i}>
-                    {<e.component />}
-                  </TabPanel>
-                )
-                )}
-              </Tabs> */}
-
-              {/* <span onClick={() => this.handleRemoveTab(i)} className='btn btn-sm btn-danger'>x</span> */}
-              {/* {console.log("render", this.state.renderTabs)} */}
-
-              {/* <Box sx={{ width: '100%', typography: 'body1' }}>
-                <TabContext value={this.state.activeTab}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={this.handleChange} aria-label="lab API tabs example">
-                      {this.state?.renderTabs.map((e, i) => (
-                      
-                          <Tab label={e.name} value={e.path} key={i} />
-                          
-                       
-                      ))}
-                      <Tab label="Item One" value="1" />
-                    </TabList>
-                  </Box>
-                  {this.state?.renderTabs.map((e, i) => (
-                    <TabPanel key={i} value={e.path}>
-                      {<e.component />}
-                    </TabPanel>
-                  )
-                  )}
-                  <TabPanel value="1">Item One</TabPanel>
-                  <TabPanel value="2">Item Two</TabPanel>
-                  <TabPanel value="3">Item Three</TabPanel>
-                </TabContext>
-              </Box> */}
-
-
-              <div className='' >
+            <div className="container-fluid">
+              <div className=''>
                 <TabContext value={this.state.activeTab}>
                   <ThemeProvider theme={this.listTheme}>
 
@@ -222,23 +182,23 @@ class DefaultLayout extends Component {
                         textColor="secondary"
                         variant="scrollable"
                         scrollButtons="auto"
+                        orientation="horizontal"
+                        overscroll-behavior= "on"
                         aria-label="scrollable auto tabs example">
                         {this.state?.renderTabs.map((e, i) => (
                           <Tab theme={this.theme}
+                          scrollButtons="auto"
                             label={<span className='single_tab'>{e.name}
                               <CloseIcon onClick={(e) => this.handleRemoveTab(e, i)} className='closeBtn' />
                             </span>} value={e.path} key={i}
 
                           />
-
                         ))}
-                        {/* <button onClick={(e) => this.handleRemoveTab(e,i)}>X</button> */}
                       </TabList>
                     </Box>
                   </ThemeProvider>
                   {this.state?.renderTabs.map((e, i) => (
-                    <TabPanel style={{padding:"0px"}} value={e.path}>
-
+                    <TabPanel value={e.path}>
                       <e.component />
                     </TabPanel>
                   )
