@@ -11,34 +11,6 @@ const top100Films = [
     { label: '12 Angry Men', year: 1957 },
     { label: "Schindler's List", year: 1993 },
     { label: 'Pulp Fiction', year: 1994 },
-    {
-      label: 'The Lord of the Rings: The Return of the King',
-      year: 2003,
-    },
-    { label: 'The Good, the Bad and the Ugly', year: 1966 },
-    { label: 'Fight Club', year: 1999 },
-    {
-      label: 'The Lord of the Rings: The Fellowship of the Ring',
-      year: 2001,
-    },
-    {
-      label: 'Star Wars: Episode V - The Empire Strikes Back',
-      year: 1980,
-    },
-    { label: 'Forrest Gump', year: 1994 },
-    { label: 'Inception', year: 2010 },
-    {
-      label: 'The Lord of the Rings: The Two Towers',
-      year: 2002,
-    },
-    { label: "One Flew Over the Cuckoo's Nest", year: 1975 },
-    { label: 'Goodfellas', year: 1990 },
-    { label: 'The Matrix', year: 1999 },
-    { label: 'Seven Samurai', year: 1954 },
-    {
-      label: 'Star Wars: Episode IV - A New Hope',
-      year: 1977,
-    },
 ]
 
 export const AutoCompleteComponent = ({
@@ -47,6 +19,7 @@ export const AutoCompleteComponent = ({
     handleAutoSelect,
     value,
     inputValue,
+    autoSelectList,
     minWidth,
     renderInput
 }) => {
@@ -58,7 +31,7 @@ export const AutoCompleteComponent = ({
             onChange={handleAutoSelect}
             inputValue={inputValue}
             onInputChange={handleAutoSelect}
-            options={top100Films}
+            options={autoSelectList}
             sx={{ width: 350 }}
             renderInput={(params) => <TextField {...params} label="" className='autocomplete-text-box' placeholder='Search' />}
         />

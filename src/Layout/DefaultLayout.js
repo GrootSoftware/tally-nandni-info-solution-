@@ -1,25 +1,17 @@
 import React, { Component, Suspense } from 'react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../_components/Header';
 import SideMenu from '../_components/SideMenu';
 import routes from '../_routes/routes';
-import { rolesAction, emailActions, departmentAction, requistionAction, tabAction } from '../_actions';
-import Loader from './../_components/commonLoader';
+import {tabAction } from '../_actions';
 import { status } from "../_constants";
-// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Box from '@mui/material/Box';
-import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import CloseIcon from "@material-ui/icons/Close";
-import { IconButton } from "@material-ui/core";
-// import '../assets/tabs.css'
 import '../assets/login.css'
 import { ThemeProvider, createTheme } from '@mui/material';
-
-import { makeStyles } from "@material-ui/core/styles"
 
 class DefaultLayout extends Component {
   constructor(props) {
@@ -28,16 +20,8 @@ class DefaultLayout extends Component {
       //Loading: false
       renderTabs: [],
       tab_Data_l: [],
-      value: "1"
+      value: "1",
     }
-  }
-
-  componentDidMount() {
-    // this.props.dispatch(departmentAction.getDepartment());
-    // this.props.dispatch(requistionAction.getCurrency());
-    // this.props.dispatch(emailActions.searchallemails({ 'search': 'inbox' }));
-    // this.props.dispatch(tabAction.add())
-
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -75,28 +59,9 @@ class DefaultLayout extends Component {
     })
   }
 
-  // createRoutes = () => {
-  //   return (
-  //     <Tabs>
-  //       <TabList>
-  //         <Tab>Title 1</Tab>
-  //         <Tab>Title 2</Tab>
-  //       </TabList>
-
-  //       <TabPanel>
-  //         <h2>Any content 1</h2>
-  //       </TabPanel>
-  //       <TabPanel>
-  //         <h2>Any content 2</h2>
-  //       </TabPanel>
-  //     </Tabs>
-  //   )
-  // };
-
   handleChange = (event, newValue) => {
-    //alert("h-change")
+    // alert("hii")
     event.preventDefault();
-    console.log(newValue)
     this.setState({
       value: newValue,
       activeTab: newValue
@@ -104,11 +69,8 @@ class DefaultLayout extends Component {
   }
 
   handleRemoveTab = (e, i) => {
-   // alert("hii")
-    console.log(e, i);
     e.stopPropagation();
     const tabs = this.props?.tab_Data?.tabs || []
-    console.log("tab", tabs);
     if (i === tabs.length - 1) {
       tabs.splice(i, 1)
       this.props.dispatch(tabAction.add([...tabs], tabs[i - 1]))
@@ -164,14 +126,14 @@ class DefaultLayout extends Component {
       <div className="wrapper">
 
         <SideMenu {...this.props} />
-        <Header {...this.props} />
+        <Header {...this.props} 
+        />
         <Suspense>
           <div className="content-page">
             <div className="container-fluid">
               <div className=''>
                 <TabContext value={this.state.activeTab}>
                   <ThemeProvider theme={this.listTheme}>
-
                     <Box sx={{ width: '100%', typography: 'body1' }}>
                       <TabList onChange={this.handleChange}
                         TabIndicatorProps={{
@@ -199,7 +161,8 @@ class DefaultLayout extends Component {
                   </ThemeProvider>
                   {this.state?.renderTabs.map((e, i) => (
                     <TabPanel value={e.path}>
-                      <e.component />
+                      <e.component 
+                      />
                     </TabPanel>
                   )
                   )}
