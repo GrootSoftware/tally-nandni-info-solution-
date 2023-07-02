@@ -16,6 +16,10 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
+
+import { REFRESH_ICON } from '../../constant/Images';
+
+
 class Company extends Component {
   constructor(props) {
     super(props);
@@ -25,7 +29,6 @@ class Company extends Component {
         ID: null
       },
       columnDefs: [
-        { field: 'RemoteCmpID' },
         { field: 'RemoteCmpName' },
         { field: 'RemoteCmpAddress' },
         { field: 'RemoteCmpCountry' },
@@ -35,14 +38,7 @@ class Company extends Component {
         { field: 'RemoteCmpBaseCurrency' },
         { field: 'RemoteCmpBooksDate' },
         { field: 'GSTNo' },
-        { field: 'PANNo' },
-        { field: 'AdditionalField1' },
-        { field: 'AdditionalField2' },
-        { field: 'AdditionalField4' },
-        { field: 'AdditionalField5' }
-       
-
-
+        { field: 'PANNo' }
 
       ],
       rowData: []
@@ -70,20 +66,21 @@ class Company extends Component {
     this.props.dispatch(companyAction.getCompany({}))
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-      this.setState({
-        rowData: this.props.get_company_data.Data,
-      })
-    }
-    if (this.props.get_company_id_status !== prevProps.get_company_id_status && this.props.get_company_id_status == status.SUCCESS) {
-      if (this.props.company_id_list) {
-        this.setState({
-          filterRowData: this.props.company_id_list.Data,
-        })
-      }
-    }
-  }
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
+  //     this.setState({
+  //       rowData: this.props.get_company_data.Data,
+  //     })
+  //   }
+  //   if (this.props.get_company_id_status !== prevProps.get_company_id_status && this.props.get_company_id_status == status.SUCCESS) {
+  //     if (this.props.company_id_list) {
+  //       this.setState({
+  //         filterRowData: this.props.company_id_list.Data,
+  //       })
+  //     }
+  //   }
+  // }
+
   companyList = () => {
     const { rowData } = this.state
     if (rowData) {
@@ -105,10 +102,10 @@ class Company extends Component {
     const { requiData, columnDefs, rowData, filterRowData } = this.state;
     return (
       <>
-        <div style={{ border: "1px solid #9c82bd", padding: "20px", borderRadius:"10px"  }}>
-          <div className="col-12 col-sm-12 col-md-4">
+        <div className='form-container'>
+          <div className="col-12 col-sm-12 col-md-4 w-100 ml-0">
             <div className="form-group form-group-common d-flex">
-              <FormControl className="select" style={{border: "1px solid #9c82bd"}}>
+              <FormControl className="select">
                 <NativeSelect
                   name="ID"
                   value={requiData.ID}
@@ -118,8 +115,8 @@ class Company extends Component {
                   {this.companyList()}
                 </NativeSelect>
               </FormControl>
-              <Button variant="contained" className="alert-white-button ml-4" onClick={this.refreshData}>
-                <i className="fa fa-refresh"></i>
+              <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
+              <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>
             </div>
           </div>

@@ -56,30 +56,30 @@ class SideMenu extends Component {
   }
 
   changeActiveTabColor = (location) => {
-    const pathname = location?.pathname;
-    for (let i = 0; i < navigation.length; i++) {
-      if (pathname?.indexOf(navigation[i].to) !== -1) {
-        this.setState({
-          activeTab: i
-        });
-        break;
+    if (location && location?.pathname) {
+      const pathname = location?.pathname;
+      for (let i = 0; i < navigation.length; i++) {
+        if (pathname?.indexOf(navigation[i].to) !== -1) {
+          this.setState({
+            activeTab: i
+          });
+          break;
+        }
       }
     }
   };
 
   setActiveTab = (index, tabName) => {
-
-    let tabArr = this?.props?.tab_Data?.tabs || []
-
-
-    if (!tabArr.includes(tabName)) {
-      tabArr?.push(tabName)
+    if (tabName) {
+      let tabArr = this?.props?.tab_Data?.tabs || []
+      if (!tabArr.includes(tabName)) {
+        tabArr?.push(tabName)
+      }
+      this.props.dispatch(tabAction.add([...tabArr], tabName))
+      this.setState({
+        activeTab: index,
+      });
     }
-
-    this.props.dispatch(tabAction.add([...tabArr], tabName))
- this.setState({
-      activeTab: index,
-    });
   }
 
   setOpenClose = (e, index) => {
@@ -98,20 +98,30 @@ class SideMenu extends Component {
 
   displaySidebarMenu = () => {
     const { activeTab, openedSubMenus, emailLength } = this.state;
-
     let retData = [];
     for (let i = 0; i < navigation.length; i++) {
       let nav = navigation[i];
-      
+
       retData.push(
         <li className="sidebar-menu" key={nav?.name} onClick={this.handelSideNav}>
-          <ListItem className={activeTab === i ? "active" : ""} tabIndex="0" component={Link!=null && Link} to={nav?.to} onClick={() => this.setActiveTab(i, nav.to)}>
-            <ListItemIcon className="icon">
-              {nav.icon}
-            </ListItemIcon>
-            <ListItemText primary={nav&& nav?.name} className="name" />
-            {/* {nav.name === 'Email' && emailLength > 0 && <span className="float-right length">{emailLength}</span>} */}
-          </ListItem>
+          {
+            !nav?.children ?
+
+              <ListItem className={activeTab === i ? "active" : ""} tabIndex="0" component={Link != null && Link} to={nav?.to} onClick={() => this.setActiveTab(i, nav.to)}>
+                <ListItemIcon className="icon">
+                  {nav.icon}
+                </ListItemIcon>
+                <ListItemText primary={nav && nav?.name} className="name" />
+              </ListItem>
+              :
+              <ListItem className={activeTab === i ? "active" : ""}>
+                <ListItemIcon className="icon frist-level-children">
+                  {nav.icon}
+                </ListItemIcon>
+                <ListItemText primary={nav && nav?.name} className="name"  onClick={e => this.setOpenClose(e, i)}/>
+              </ListItem>
+          }
+
           {nav.children &&
             <div className="float-right arrow" onClick={e => this.setOpenClose(e, i)}>
               {!openedSubMenus[i] &&
@@ -134,37 +144,32 @@ class SideMenu extends Component {
   }
 
   handleTabs = (tabName) => {
-
-    let tabArr = this?.props?.tab_Data?.tabs || []
-
-    if (!tabArr.includes(tabName)) {
-      tabArr?.push(tabName)
+    if (tabName) {
+      let tabArr = this?.props?.tab_Data?.tabs || []
+      if (!tabArr.includes(tabName)) {
+        tabArr?.push(tabName)
+      }
+      this.props.dispatch(tabAction.add([...tabArr], tabName))
     }
-
-    this.props.dispatch(tabAction.add([...tabArr], tabName))
-
   }
 
   displayChild = (data) => {
-    const { activeTab, openedSubMenus, emailLength } = this.state;
     let childData = [];
-   
+
     for (let j = 0; j < data.length; j++) {
       childData.push(
-            <ListItem key={data[j].name}  >
-              <Link to={data[j].to} style={{ cursor: "pointer" }} onClick={() => this.handleTabs(data[j].to)} >
-                {data[j].name}
-              </Link>
-            </ListItem>
-
-        
+        <ListItem key={data[j].name}  >
+          <Link to={data[j].to} style={{ cursor: "pointer" }} onClick={() => this.handleTabs(data[j].to)} >
+            {data[j].name}
+          </Link>
+        </ListItem>
       );
     }
     return childData;
   }
 
   render() {
-    const { isOpen } = this.state;
+    const { isOpen, activeTab, openedSubMenus, emailLength } = this.state;
     return (
       <>
         <div className="d-block d-lg-none mobile-toggale">
@@ -177,12 +182,12 @@ class SideMenu extends Component {
             <MenuIcon />
           </IconButton>
         </div>
-        <div className={isOpen ? "sidebar open" : "sidebar"} style={{background:"aliceblue"}}>
+        <div className={isOpen ? "sidebar open" : "sidebar"}>
           <div className="d-block logo-container">
             <div className="row">
               <div className="col-10">
                 <div className="logo">
-                  <a href="/"><img src={Logo} alt="" /></a>
+                  <a href="/"><img src={Logo} alt="" style={{ width: "260px" }} /></a>
                 </div>
               </div>
               <div className="col-2">
@@ -201,18 +206,54 @@ class SideMenu extends Component {
           </div>
           <SimpleBar style={{ maxHeight: 'calc(100% - 76px)' }} >
             <List className="sidebar-content" >
-              {/* <ListItem className="menu-heading"  >
-                Main Menu
-              </ListItem> */}
               {this.displaySidebarMenu()}
-            </List>
-            {/* <div className="increase-box">
-              <div className="increase-carcale"></div>
-              <span><ViewComfyIcon /></span>
-              <p>Increase your <br /> work with kanban</p>
-              <span><ArrowRightAltIcon /></span>
-            </div> */}
+              {/* 
+              {
+                navigation.map((itm, i) => {
 
+                  <li className="sidebar-menu" key={itm?.name} onClick={this.handelSideNav}>
+               
+                    <ListItem className={activeTab === i ? "active" : ""} tabIndex="0" component={Link != null && Link} to={itm?.to} onClick={() => this.setActiveTab(i, itm.to)}>
+                      <ListItemIcon className="icon">
+                        {itm?.icon}
+                      </ListItemIcon>
+                      <ListItemText primary={itm && itm?.name} className="name" />
+                    </ListItem>
+
+                    {itm.children &&
+                      <div className="float-right arrow" onClick={e => this.setOpenClose(e, i)}>
+                        {!openedSubMenus[i] &&
+                          <ExpandMoreIcon />
+                        }
+                        {openedSubMenus[i] &&
+                          <ExpandLessIcon />
+                        }
+                      </div>
+                    } */}
+
+              {/* {
+                       itm.children && itm.children.length > 0 &&
+                       itm.children.map((item, i)=>{
+                        <ListItem key={item.name + i}  >
+                          <Link to={item.to} style={{ cursor: "pointer" }} onClick={() => this.handleTabs(item.to)} >
+                          {item.name}
+                          </Link>
+                          </ListItem>
+                       })
+                    } */}
+
+
+
+
+              {/* {(itm.children && openedSubMenus[i]) &&
+                      <ul tabIndex="0">
+                        {this.displayChild(itm.children)}
+                      </ul>
+                    } */}
+              {/* </li> */}
+              {/* }) */}
+              {/* } */}
+            </List>
           </SimpleBar>
         </div>
       </>)

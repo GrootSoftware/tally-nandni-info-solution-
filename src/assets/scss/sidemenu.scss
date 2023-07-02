@@ -12,6 +12,8 @@
     -moz-transition: all .3s ease-in;
     -o-transition: all .3s ease-in;
     transition: all .3s ease-in;
+    background: #2567c0;
+    // background: aliceblue;
 
     &.open {
         width: 260px;
@@ -28,6 +30,10 @@
 
         .logo-container {
             .logo {
+                width: 214px;
+                padding: 3px;
+                background: #fff;
+                height: 68px;
                 opacity: 1;
                 visibility: visible;
             }
@@ -44,8 +50,8 @@
 
             .sidebar-menu {
                 >a {
-                    padding-left: 30px;
-                    padding-right: 30px;
+                    // padding-left: 30px;
+                    // padding-right: 30px;
 
                     .name {
                         opacity: 1;
@@ -80,7 +86,7 @@
     }
 
     .logo-container {
-        padding: 25px 20px;
+        padding: 23px 9px;
 
         .logo {
             height: 0;
@@ -109,15 +115,21 @@
                 margin-left: -6px;
 
                 .MuiSvgIcon-root {
-                    font-size: 32px;
+                    font-size: 30px;
+                    color: #fff;
+
                 }
 
                 &:hover {
                     background-color: transparent;
+                    opacity: 0.8;
+                    transform: scale(1.1, 1.1);
+
                 }
 
                 &:focus {
                     background-color: transparent;
+
                 }
             }
         }
@@ -147,7 +159,7 @@
                 padding-left: 15px;
                 padding-right: 15px;
                 display: block;
-                color: #8f8f8f;
+                color: #ffffff;
                 font-weight: 600;
                 font-size: 15px;
                 position: relative;
@@ -155,7 +167,7 @@
 
                 .icon {
                     font-size: 20px;
-                    color: #8f8f8f;
+                    color: #fff !important;
                     width: 32px;
                     min-width: 32px;
                     height: 32px;
@@ -183,8 +195,8 @@
                     transition: all .3s ease-in;
 
                     span {
-                        color: #8f8f8f;
-                        font-weight: 600;
+                        color: #ffffff;
+                        font-weight: 500;
                         font-size: 15px;
                         line-height: 32px;
                     }
@@ -220,17 +232,17 @@
                     text-decoration: none;
 
                     .icon {
-                        color: #6417c5;
+                        color: #ffffff;
                     }
 
                     .name {
                         span {
-                            color: #6417c5;
+                            color: #ffffff;
                         }
                     }
 
                     &::after {
-                        border-color: #6417c5;
+                        border-color: #2567c0;
                     }
                 }
 
@@ -238,18 +250,18 @@
                     text-decoration: none;
 
                     .icon {
-                        color: #6417c5;
+                        color: #ffffff;
 
                     }
 
                     .name {
                         span {
-                            color: #6417c5;
+                            color: #ffffff;
                         }
                     }
 
                     &::after {
-                        border-color: #6417c5;
+                        border-color: #2567c0
                     }
                 }
             }
@@ -260,25 +272,31 @@
                 right: 0;
                 top: 0;
                 z-index: 10;
-                width: 48px;
+                width: 40px;
                 height: 48px;
-                line-height: 44px;
+                line-height: 40px;
                 text-align: center;
                 cursor: pointer;
             }
 
             ul {
                 li {
-                    padding-left: 27px;
-                    padding-right: 27px;
+                    padding-left: 0px;
+                    // padding-right: 27px;
+                    margin-left: 10px;
+                    color: #fff;
+                    line-height: 14px;
+                    width: 160px;
+                    display: list-item !important;
 
+                    // width: 130px;
                     a {
-                        color: #8f8f8f;
+                        color: #ffffff;
                         font-weight: 500;
-                        font-size: 15px;
+                        font-size: 13px;
 
                         &:hover {
-                            color: #6417c5;
+                            color: #ffffff;
                             text-decoration: none;
                         }
                     }
@@ -413,3 +431,71 @@
         }
     }
 }
+
+.MuiTabPanel-root {
+    padding: 0px !important;
+}
+
+.form-container {
+    border: 1px solid #2567c0;
+    border-radius: 6px;
+    padding: 20px;
+}
+
+.action-button-theme {
+    min-height: 45px !important;
+    min-width: 45px !important;
+    border-radius: 100% !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    background: #1dd46d !important;
+    box-shadow: 1px 1px 5px 0 #1dd46b !important;
+    transform: scale(1.2 1.2) !important;
+    padding: 0 !important;
+}
+
+
+.sidebar .sidebar-content .sidebar-menu {
+    .frist-level-children {
+        font-size: 19px;
+        color: #fff !important;
+        width: 32px;
+        min-width: 32px;
+        height: 32px;
+        text-align: center;
+        display: inline-block;
+        vertical-align: top;
+        text-align: left;
+    }
+
+    .name {
+        display: inline-block;
+        visibility: hidden;
+        opacity: 0;
+        margin: 0;
+        width: calc(100% - 32px);
+        vertical-align: top;
+        -webkit-transition: all .3s ease-in;
+        -moz-transition: all .3s ease-in;
+        -o-transition: all .3s ease-in;
+        transition: all .3s ease-in;
+        visibility: visible;
+        opacity: 1;
+        cursor: pointer;
+
+        span {
+            color: #ffffff;
+            font-weight: 500;
+            font-size: 14px;
+            line-height: 32px;
+        }
+    }
+}
+
+// .sidebar .sidebar-content .sidebar-menu>a .name span {
+//     color: #ffffff;
+//     font-weight: 500;
+//     font-size: 15px;
+//     line-height: 32px;
+// }

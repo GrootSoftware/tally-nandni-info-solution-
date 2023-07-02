@@ -346,7 +346,7 @@ class Dashbord extends Component {
           <div className="row justify-content-center align-items-center">
             <div className="col-lg-4">
               <div className="heading">
-                <h3>Dashboard</h3>
+                <h3>Dashbord</h3>
                 <span>Lorem ipsum dolor sit amet</span>
               </div>
             </div>
