@@ -124,7 +124,7 @@ class Currency extends Component {
           </div>
 
           <div >
-            <Table columnDefs={columnDefs} rowData={this.props.currency_list?.Data} />
+            <Table columnDefs={columnDefs} rowData={this.state.filterRowData} />
           </div>
         </div>
       </>

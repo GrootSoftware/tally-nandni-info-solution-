@@ -117,7 +117,7 @@ class CostCategory extends Component {
           </div>
 
           <div >
-            <Table columnDefs={columnDefs} rowData={this.props.cost_category_id_list?.Data} />
+            <Table columnDefs={columnDefs} rowData={this.state.filterRowData} />
           </div>
         </div>
       </>
