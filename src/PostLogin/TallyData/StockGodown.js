@@ -33,10 +33,7 @@ class StockGodown extends Component {
       columnDefs: [
         { field: 'CompanyName' },
         { field: 'Name' },
-        { field: 'NameMasterID' },
-        { field: 'GUID' },
-        { field: 'AlterID' },
-        { field: 'ParentGUID' }
+        { field: 'GUID' }
       ],
       rowData: [],
       filterRowData: []

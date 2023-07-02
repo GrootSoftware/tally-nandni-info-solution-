@@ -33,11 +33,7 @@ class VoucherType extends Component {
       columnDefs: [
         { field: 'CompanyName' },
         { field: 'Name' },
-        { field: 'NameMasterID' },
-        { field: 'ReservedName' },
-        { field: 'GUID' },
-        { field: 'AlterID' } ,
-        {field: 'ParentGUID'}
+        { field: 'GUID' }
       ],
       rowData: [],
       filterRowData: []

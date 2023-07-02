@@ -31,13 +31,7 @@ class CostCenter extends Component {
       columnDefs: [
         { field: 'CompanyName' },
         { field: 'Name' },
-        { field: 'NameMasterID' },
-        { field: 'GUID' },
-        { field: 'AlterID' },
-        { field: 'ParentGUID' },
-        { field: 'ParentName' },
-        { field: 'CategoryGUID' },
-        { field: 'CategoryName' }
+        { field: 'GUID' }
       ],
       rowData: [],
       filterRowData: []
@@ -122,7 +116,7 @@ class CostCenter extends Component {
           </div>
 
           <div >
-            <Table columnDefs={columnDefs} rowData={this.state.filterRowData} />
+            <Table columnDefs={columnDefs} rowData={this.props.cost_center_id_list?.Data} />
           </div>
         </div>
       </>

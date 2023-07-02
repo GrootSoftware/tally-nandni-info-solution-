@@ -33,12 +33,7 @@ class StockUnit extends Component {
       columnDefs: [
         { field: 'CompanyName' },
         { field: 'Name' },
-        { field: 'NameMasterID' },
-        { field: 'GUID' },
-        { field: 'AlterID' },
-        { field: 'IsSimpleUnit' },
-        { field: 'DecimalPlaces' },
-        { field: 'OrignalName' }
+        { field: 'GUID' }
       ],
       rowData: [],
       filterRowData: []
