@@ -54,7 +54,7 @@ class StockItem extends Component {
   }
 
   componentDidMount = () => {
-    this.props.dispatch(companyAction.getCompany({}))
+    // this.props.dispatch(companyAction.getCompany({}))
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -129,6 +129,7 @@ class StockItem extends Component {
     );
   }
 }
+
 function mapStateToProps(state) {
   const { get_company_data, get_company_status, get_stock_item_status, stock_item_list } = state.procurement;
   return {

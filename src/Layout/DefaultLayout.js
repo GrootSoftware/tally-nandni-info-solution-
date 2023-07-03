@@ -60,7 +60,6 @@ class DefaultLayout extends Component {
   }
 
   handleChange = (event, newValue) => {
-    // alert("hii")
     event.preventDefault();
     this.setState({
       value: newValue,
@@ -78,7 +77,6 @@ class DefaultLayout extends Component {
       tabs.splice(i, 1)
       this.props.dispatch(tabAction.add([...tabs], tabs[i]))
     }
-
   }
 
   // Create a custom theme
@@ -119,7 +117,6 @@ class DefaultLayout extends Component {
     },
   });
 
-
   render() {
 
     return (
@@ -153,7 +150,6 @@ class DefaultLayout extends Component {
                             label={<span className='single_tab'>{e.name}
                               <CloseIcon onClick={(e) => this.handleRemoveTab(e, i)} className='closeBtn' />
                             </span>} value={e.path} key={i}
-
                           />
                         ))}
                       </TabList>

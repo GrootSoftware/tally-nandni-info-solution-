@@ -106,7 +106,6 @@ class SideMenu extends Component {
         <li className="sidebar-menu" key={nav?.name} onClick={this.handelSideNav}>
           {
             !nav?.children ?
-
               <ListItem className={activeTab === i ? "active" : ""} tabIndex="0" component={Link != null && Link} to={nav?.to} onClick={() => this.setActiveTab(i, nav.to)}>
                 <ListItemIcon className="icon">
                   {nav.icon}

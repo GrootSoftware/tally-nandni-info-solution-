@@ -6,9 +6,7 @@ import { LoginLayout, DefaultLayout } from './Layout';
 import Loading from './_components/Loading';
 
 class App extends Component {
-    constructor(props) {
-        super(props);
-    }
+    
     render() {
         return (
             <BrowserRouter>
