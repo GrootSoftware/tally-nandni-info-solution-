@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import apps from './aaps.json'
-import { Padding } from '@mui/icons-material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '../../assets/login.css';
 
 import Table from '../../Table/Table';
@@ -53,6 +48,7 @@ class StockItem extends Component {
         { field: 'OpeningRate' }
       ],
       rowData: [],
+      dropdowndata: [],
       filterRowData: []
     };
   }
@@ -63,8 +59,13 @@ class StockItem extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-      if (this.props.get_company_data) {
+      if (this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0) {
+        let drop_down_data = [{ ID: "", RemoteCmpName: "-select-" }]
+        this.props.get_company_data.Data.map((item) => {
+          drop_down_data.push(item)
+        })
         this.setState({
+          dropdowndata: drop_down_data,
           rowData: this.props.get_company_data.Data,
         })
       }
@@ -75,24 +76,6 @@ class StockItem extends Component {
           filterRowData: this.props.stock_item_list.StockPartNoData,
         })
       }
-    }
-  }
-  companyList = () => {
-    const { rowData } = this.state
-
-    if (rowData) {
-      let retData = [];
-      for (let i = 0; i < rowData.length; i++) {
-        let row = rowData[i];
-        if (row) {
-          retData.push(
-            <>
-              <option value={row.ID} >{row.RemoteCmpName}</option>
-            </>
-          );
-        }
-      }
-      return retData;
     }
   }
 
@@ -113,7 +96,7 @@ class StockItem extends Component {
   }
 
   render() {
-    const { requiData, columnDefs } = this.state;
+    const { requiData, columnDefs, dropdowndata } = this.state;
     return (
       <>
         <div className='form-container'>
@@ -125,8 +108,11 @@ class StockItem extends Component {
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-                  <option value="">-Select-</option>
-                  {this.companyList()}
+                  {
+                    dropdowndata && dropdowndata.map((list, index) => (
+                      <option value={list.ID}>{list.RemoteCmpName}</option>
+                    ))
+                  }
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>

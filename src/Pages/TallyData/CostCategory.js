@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import apps from './aaps.json'
-import { Padding } from '@mui/icons-material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '../../assets/login.css';
-import Excel from '../../assets/images/icons/clipart2394456.png'
 import Button from '@mui/material/Button';
 import Table from '../../Table/Table';
 import FormControl from "@material-ui/core/FormControl";
@@ -16,11 +10,10 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
-import { costCenterAction } from '../../_actions/currency.action';
-
+import { costCategoryAction } from '../../_actions/cost.category.action';
 import { REFRESH_ICON } from '../../constant/Images';
 
-class Currency extends Component {
+class CostCategory extends Component {
   constructor(props) {
     super(props);
 
@@ -33,16 +26,11 @@ class Currency extends Component {
         { field: 'Name' },
         { field: 'NameMasterID' },
         { field: 'GUID' },
-        { field: 'AlterID' },
-        { field: 'MailingName' },
-        { field: 'OriginalName' },
-        { field: 'ExpandedSymbol' },
-        { field: 'DecimalSymbol' },
-        { field: 'DecimalPlaces' },
-        { field: 'DecimalPlacesForPrinting' }
+        { field: 'AlterID' }
       ],
       rowData: [],
-      filterRowData: []
+      filterRowData: [],
+      dropdowndata: [],
     };
   }
 
@@ -52,36 +40,24 @@ class Currency extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-      if (this.props.get_company_data) {
+
+      if (this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0) {
+        let drop_down_data = [{ ID: "", RemoteCmpName: "-select-" }]
+        this.props.get_company_data.Data.map((item) => {
+          drop_down_data.push(item)
+        })
         this.setState({
+          dropdowndata: drop_down_data,
           rowData: this.props.get_company_data.Data,
         })
       }
     }
-    if (this.props.get_currency_status !== prevProps.get_currency_status && this.props.get_currency_status == status.SUCCESS) {
-      if (this.props.currency_list) {
+    if (this.props.get_cost_category_id_status !== prevProps.get_cost_category_id_status && this.props.get_cost_category_id_status == status.SUCCESS) {
+      if (this.props.cost_category_id_list) {
         this.setState({
-          filterRowData: this.props.currency_list.Data,
+          filterRowData: this.props.cost_category_id_list.Data,
         })
       }
-    }
-  }
-  companyList = () => {
-    const { rowData } = this.state
-
-    if (rowData) {
-      let retData = [];
-      for (let i = 0; i < rowData.length; i++) {
-        let row = rowData[i];
-        if (row) {
-          retData.push(
-            <>
-              <option value={row.ID} >{row.RemoteCmpName}</option>
-            </>
-          );
-        }
-      }
-      return retData;
     }
   }
 
@@ -97,14 +73,14 @@ class Currency extends Component {
   refreshData = () => {
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(costCenterAction.getCurrencyById({ CompanyID: requiData.CompanyID }))
+      this.props.dispatch(costCategoryAction.getCostCategoryById({ CompanyID: requiData.CompanyID, ID: 0 }))
     }
   }
   render() {
-    const { requiData, columnDefs } = this.state;
+    const { requiData, columnDefs, dropdowndata } = this.state;
     return (
       <>
-        <div className='form-container'>
+        <div className="form-container">
           <div className="col-12 col-sm-12 col-md-4">
             <div className="form-group form-group-common d-flex">
               <FormControl className="select">
@@ -113,12 +89,16 @@ class Currency extends Component {
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-                  <option value="">-Select-</option>
-                  {this.companyList()}
+
+                  {
+                    dropdowndata && dropdowndata.map((list, index) => (
+                      <option value={list.ID}>{list.RemoteCmpName}</option>
+                    ))
+                  }
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
-              <img src={REFRESH_ICON} alt="" title="Reload" />
+                <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>
             </div>
           </div>
@@ -132,14 +112,14 @@ class Currency extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_currency_status, currency_list } = state.procurement;
+  const { get_company_data, get_company_status, get_company_id_status, cost_category_id_list } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_currency_status,
-    currency_list
+    get_company_id_status,
+    cost_category_id_list
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(Currency);
+const connectedLogin = connect(mapStateToProps)(CostCategory);
 export default (connectedLogin);

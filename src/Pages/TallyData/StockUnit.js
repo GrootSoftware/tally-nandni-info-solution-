@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import apps from './aaps.json'
-import { Padding } from '@mui/icons-material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '../../assets/login.css';
 
 import Table from '../../Table/Table';
@@ -15,13 +10,12 @@ import NativeSelect from "@material-ui/core/NativeSelect";
 import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
-
-import { groupAction, lederAction, stockCategoryAction } from '../../_actions';
 import { Button } from '@mui/material';
+import { stockUnitAction } from '../../_actions';
 
 import { REFRESH_ICON } from '../../constant/Images';
 
-class StockCategory extends Component {
+class StockUnit extends Component {
   constructor(props) {
     super(props);
 
@@ -35,9 +29,12 @@ class StockCategory extends Component {
         { field: 'NameMasterID' },
         { field: 'GUID' },
         { field: 'AlterID' },
-        { field: 'ParentGUID' }
+        { field: 'IsSimpleUnit' },
+        { field: 'DecimalPlaces' },
+        { field: 'OrignalName' }
       ],
       rowData: [],
+      dropdowndata:[],
       filterRowData: []
     };
   }
@@ -48,36 +45,23 @@ class StockCategory extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-      if (this.props.get_company_data) {
+      if (this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0) {
+        let drop_down_data = [{ ID: "", RemoteCmpName: "-select-" }]
+        this.props.get_company_data.Data.map((item) => {
+          drop_down_data.push(item)
+        })
         this.setState({
+          dropdowndata: drop_down_data,
           rowData: this.props.get_company_data.Data,
         })
       }
     }
-    if (this.props.get_stock_category_status !== prevProps.get_stock_category_status && this.props.get_stock_category_status == status.SUCCESS) {
-      if (this.props.stock_category_list) {
+    if (this.props.get_stock_unit_status !== prevProps.get_stock_unit_status && this.props.get_stock_unit_status == status.SUCCESS) {
+      if (this.props.stock_unit_list) {
         this.setState({
-          filterRowData: this.props.stock_category_list.Data,
+          filterRowData: this.props.stock_unit_list.Data,
         })
       }
-    }
-  }
-  companyList = () => {
-    const { rowData } = this.state
-
-    if (rowData) {
-      let retData = [];
-      for (let i = 0; i < rowData.length; i++) {
-        let row = rowData[i];
-        if (row) {
-          retData.push(
-            <>
-              <option value={row.ID} >{row.RemoteCmpName}</option>
-            </>
-          );
-        }
-      }
-      return retData;
     }
   }
 
@@ -93,12 +77,12 @@ class StockCategory extends Component {
   refreshData = () => {
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(stockCategoryAction.getStockCategoryById({ CompanyID: requiData.CompanyID }))
+      this.props.dispatch(stockUnitAction.getStockUnitById({ CompanyID: requiData.CompanyID }))
     }
   }
 
   render() {
-    const { requiData, columnDefs } = this.state;
+    const { requiData, columnDefs, dropdowndata } = this.state;
     return (
       <>
         <div className='form-container'>
@@ -110,8 +94,11 @@ class StockCategory extends Component {
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-                  <option value="">-Select-</option>
-                  {this.companyList()}
+                 {
+                    dropdowndata && dropdowndata.map((list, index) => (
+                      <option value={list.ID}>{list.RemoteCmpName}</option>
+                    ))
+                  }
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
@@ -129,14 +116,14 @@ class StockCategory extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_stock_category_status, stock_category_list } = state.procurement;
+  const { get_company_data, get_company_status, get_stock_unit_status, stock_unit_list } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_stock_category_status,
-    stock_category_list
+    get_stock_unit_status,
+    stock_unit_list
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(StockCategory);
+const connectedLogin = connect(mapStateToProps)(StockUnit);
 export default (connectedLogin);

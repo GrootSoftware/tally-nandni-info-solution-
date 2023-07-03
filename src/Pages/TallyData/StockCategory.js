@@ -16,12 +16,12 @@ import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
 
-import { groupAction } from '../../_actions';
+import { groupAction, lederAction, stockCategoryAction } from '../../_actions';
 import { Button } from '@mui/material';
 
 import { REFRESH_ICON } from '../../constant/Images';
 
-class Group extends Component {
+class StockCategory extends Component {
   constructor(props) {
     super(props);
 
@@ -33,14 +33,12 @@ class Group extends Component {
         { field: 'CompanyName' },
         { field: 'Name' },
         { field: 'NameMasterID' },
-        { field: 'ReservedName' },
         { field: 'GUID' },
         { field: 'AlterID' },
-        { field: 'ParentGUID' },
-        { field: 'ParentName' },
-        { field: 'AccountType' }
+        { field: 'ParentGUID' }
       ],
       rowData: [],
+      dropdowndata: [],
       filterRowData: []
     };
   }
@@ -51,36 +49,24 @@ class Group extends Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-      if (this.props.get_company_data) {
+     
+      if (this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0) {
+        let drop_down_data = [{ ID: "", RemoteCmpName: "-select-" }]
+        this.props.get_company_data.Data.map((item) => {
+          drop_down_data.push(item)
+        })
         this.setState({
+          dropdowndata: drop_down_data,
           rowData: this.props.get_company_data.Data,
         })
       }
     }
-    if (this.props.get_group_status !== prevProps.get_group_status && this.props.get_group_status == status.SUCCESS) {
-      if (this.props.group_list) {
+    if (this.props.get_stock_category_status !== prevProps.get_stock_category_status && this.props.get_stock_category_status == status.SUCCESS) {
+      if (this.props.stock_category_list) {
         this.setState({
-          filterRowData: this.props.group_list.Data,
+          filterRowData: this.props.stock_category_list.Data,
         })
       }
-    }
-  }
-  companyList = () => {
-    const { rowData } = this.state
-
-    if (rowData) {
-      let retData = [];
-      for (let i = 0; i < rowData.length; i++) {
-        let row = rowData[i];
-        if (row) {
-          retData.push(
-            <>
-              <option value={row.ID} >{row.RemoteCmpName}</option>
-            </>
-          );
-        }
-      }
-      return retData;
     }
   }
 
@@ -96,25 +82,28 @@ class Group extends Component {
   refreshData = () => {
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(groupAction.getGroupById({ CompanyID: requiData.CompanyID }))
+      this.props.dispatch(stockCategoryAction.getStockCategoryById({ CompanyID: requiData.CompanyID }))
     }
   }
 
   render() {
-    const { requiData, columnDefs } = this.state;
+    const { requiData, columnDefs, dropdowndata } = this.state;
     return (
       <>
         <div className='form-container'>
           <div className="col-12 col-sm-12 col-md-4">
-            <div className="form-group form-group-common d-flex" >
+            <div className="form-group form-group-common d-flex">
               <FormControl className="select">
                 <NativeSelect
                   name="CompanyID"
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-                  <option value="">-Select-</option>
-                  {this.companyList()}
+                  {
+                    dropdowndata && dropdowndata.map((list, index) => (
+                      <option value={list.ID}>{list.RemoteCmpName}</option>
+                    ))
+                  }
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
@@ -132,14 +121,14 @@ class Group extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_group_status, group_list } = state.procurement;
+  const { get_company_data, get_company_status, get_stock_category_status, stock_category_list } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_group_status,
-    group_list
+    get_stock_category_status,
+    stock_category_list
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(Group);
+const connectedLogin = connect(mapStateToProps)(StockCategory);
 export default (connectedLogin);

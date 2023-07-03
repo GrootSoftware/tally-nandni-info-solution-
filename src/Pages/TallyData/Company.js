@@ -1,14 +1,8 @@
 import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import apps from './aaps.json'
-import { Padding } from '@mui/icons-material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '../../assets/login.css';
-import Excel from '../../assets/images/icons/clipart2394456.png'
 import Button from '@mui/material/Button';
 import Table from '../../Table/Table';
 import FormControl from "@material-ui/core/FormControl";
@@ -23,6 +17,10 @@ import { REFRESH_ICON } from '../../constant/Images';
 class Company extends Component {
   constructor(props) {
     super(props);
+
+  let ware_houseId =  localStorage.getItem("wareHouseId");
+
+  console.log("ware_houseId", ware_houseId);
 
     this.state = {
       requiData: {
@@ -41,7 +39,8 @@ class Company extends Component {
         { field: 'PANNo' }
 
       ],
-      rowData: []
+      rowData: [],
+      dropdowndata :[],
     };
 
   }
@@ -66,40 +65,31 @@ class Company extends Component {
     this.props.dispatch(companyAction.getCompany({}))
   }
 
-  // componentDidUpdate(prevProps, prevState) {
-  //   if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-  //     this.setState({
-  //       rowData: this.props.get_company_data.Data,
-  //     })
-  //   }
-  //   if (this.props.get_company_id_status !== prevProps.get_company_id_status && this.props.get_company_id_status == status.SUCCESS) {
-  //     if (this.props.company_id_list) {
-  //       this.setState({
-  //         filterRowData: this.props.company_id_list.Data,
-  //       })
-  //     }
-  //   }
-  // }
-
-  companyList = () => {
-    const { rowData } = this.state
-    if (rowData) {
-      let retData = [];
-      for (let i = 0; i < rowData.length; i++) {
-        let row = rowData[i];
-        if (row) {
-          retData.push(
-            <>
-              <option value={row.ID} >{row.RemoteCmpName}</option>
-            </>
-          );
-        }
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
+     
+      if(this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0){
+        let drop_down_data = [{ID: "", RemoteCmpName: "-select-"}]
+        this.props.get_company_data.Data.map((item)=>{
+          drop_down_data.push(item)
+        })
+        this.setState({
+          dropdowndata:drop_down_data,
+          rowData: this.props.get_company_data.Data,
+        })
       }
-      return retData;
+    }
+    if (this.props.get_company_id_status !== prevProps.get_company_id_status && this.props.get_company_id_status == status.SUCCESS) {
+      if (this.props.company_id_list) {
+        this.setState({
+          filterRowData: this.props.company_id_list.Data,
+        })
+      }
     }
   }
+
   render() {
-    const { requiData, columnDefs, rowData, filterRowData } = this.state;
+    const { requiData, columnDefs, rowData, filterRowData, dropdowndata } = this.state;
     return (
       <>
         <div className='form-container'>
@@ -111,8 +101,11 @@ class Company extends Component {
                   value={requiData.ID}
                   onChange={this.handleStateChange}
                 >
-                  <option value="">-Select-</option>
-                  {this.companyList()}
+                  {
+                   dropdowndata && dropdowndata.map((list, index)=>(
+                    <option value={list.ID}>{list.RemoteCmpName}</option>
+                   ))
+                  }
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>

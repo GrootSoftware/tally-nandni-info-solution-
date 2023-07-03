@@ -479,23 +479,18 @@
 
 
 .header-auto-select-component {
-    margin: 0 0 0 auto;
     align-items: center;
     justify-content: end;
     display: flex;
     margin: 0 0 0 auto;
-
+    .form-group-common {
+        .select-component{
+            width: 325px !important;
+            // border-radius: 25px;
+            .MuiInputBase-root{
+                // border-radius: 25px !important;
+            }
+        }
+      }
    
-}
-
-.seletc-auto-complete {
-    .MuiAutocomplete-hasPopupIcon.css-12ufwch-MuiAutocomplete-root .MuiOutlinedInput-root, .MuiAutocomplete-hasClearIcon.css-12ufwch-MuiAutocomplete-root .MuiOutlinedInput-root {
-        height: 44px !important;
-        border-radius: 20px !important;
-        padding-right: 39px !important;
-    }
-
-    .css-12ufwch-MuiAutocomplete-root .MuiOutlinedInput-root .MuiAutocomplete-input {
-        padding: 0px 4px 0px 5px !important;
-    }
 }

@@ -1,17 +1,17 @@
 import React from 'react';
-const Dashbord = React.lazy(() => import('../PostLogin/Dashbord'));
-const Company = React.lazy(() => import('../PostLogin/TallyData/Company'));
-const CostCategory = React.lazy(() => import('../PostLogin/TallyData/CostCategory'));
-const CostCenter = React.lazy(() => import('../PostLogin/TallyData/CostCenter'));
-const Currency = React.lazy(() => import('../PostLogin/TallyData/Currency'));
-const Group = React.lazy(() => import('../PostLogin/TallyData/Group'));
-const Ledger = React.lazy(() => import('../PostLogin/TallyData/Ledger'));
-const StockCategory = React.lazy(() => import('../PostLogin/TallyData/StockCategory'));
-const StockGodown = React.lazy(() => import('../PostLogin/TallyData/StockGodown'));
-const StockGroup = React.lazy(() => import('../PostLogin/TallyData/StockGroup'));
-const StockItem = React.lazy(() => import('../PostLogin/TallyData/StockItem'));
-const StockUnit = React.lazy(() => import('../PostLogin/TallyData/StockUnit'));
-const VoucherType = React.lazy(() => import('../PostLogin/TallyData/VoucherType'));
+const Dashbord = React.lazy(() => import('../Pages/Dashbord'));
+const Company = React.lazy(() => import('../Pages/TallyData/Company'));
+const CostCategory = React.lazy(() => import('../Pages/TallyData/CostCategory'));
+const CostCenter = React.lazy(() => import('../Pages/TallyData/CostCenter'));
+const Currency = React.lazy(() => import('../Pages/TallyData/Currency'));
+const Group = React.lazy(() => import('../Pages/TallyData/Group'));
+const Ledger = React.lazy(() => import('../Pages/TallyData/Ledger'));
+const StockCategory = React.lazy(() => import('../Pages/TallyData/StockCategory'));
+const StockGodown = React.lazy(() => import('../Pages/TallyData/StockGodown'));
+const StockGroup = React.lazy(() => import('../Pages/TallyData/StockGroup'));
+const StockItem = React.lazy(() => import('../Pages/TallyData/StockItem'));
+const StockUnit = React.lazy(() => import('../Pages/TallyData/StockUnit'));
+const VoucherType = React.lazy(() => import('../Pages/TallyData/VoucherType'));
 
 
 const routes = [
