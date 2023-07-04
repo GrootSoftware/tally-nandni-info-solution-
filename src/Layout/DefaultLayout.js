@@ -13,6 +13,9 @@ import CloseIcon from "@material-ui/icons/Close";
 import '../assets/login.css'
 import { ThemeProvider, createTheme } from '@mui/material';
 
+import { AppControler } from '../AppControler/AppControler';
+import _nav from "../_components/_nav";
+
 class DefaultLayout extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +23,7 @@ class DefaultLayout extends Component {
       //Loading: false
       renderTabs: [],
       tab_Data_l: [],
-      value: "1",
+      tabname: "",
     }
   }
 
@@ -35,7 +38,6 @@ class DefaultLayout extends Component {
       }
     }
     if (JSON.stringify(prevProps.tab_Data) !== JSON.stringify(this.props.tab_Data)) {
-
        this.handleTabDataChange();
     }
   }
@@ -60,13 +62,14 @@ class DefaultLayout extends Component {
   }
 
   handleChange = (event, newValue) => {
-    // alert("hii")
+    console.log("newValue", newValue);
     event.preventDefault();
     this.setState({
-      value: newValue,
+      tabname: newValue,
       activeTab: newValue
     });
   }
+
 
   handleRemoveTab = (e, i) => {
     e.stopPropagation();
@@ -122,12 +125,13 @@ class DefaultLayout extends Component {
 
   render() {
 
+    console.log("this.state.activeTab", this.state.activeTab);
+    
     return (
       <div className="wrapper">
 
         <SideMenu {...this.props} />
-        <Header {...this.props} 
-        />
+        <Header {...this.props} />
         <Suspense>
           <div className="content-page">
             <div className="container-fluid">
@@ -152,17 +156,35 @@ class DefaultLayout extends Component {
                           scrollButtons="auto"
                             label={<span className='single_tab'>{e.name}
                               <CloseIcon onClick={(e) => this.handleRemoveTab(e, i)} className='closeBtn' />
-                            </span>} value={e.path} key={i}
-
+                            </span>}
+                             value={e.path} key={i}
                           />
                         ))}
                       </TabList>
                     </Box>
                   </ThemeProvider>
-                  {this.state?.renderTabs.map((e, i) => (
+                  {/* {
+                    this.state.renderTabs.includes(this.state.value) ? 
+                    <TabPanel value={this.state.value}>
+                    <e.component 
+                    />
+                  </TabPanel>
+                  : this.state?.renderTabs.map((e, i) => {
+                   { console.log(e.path)}
                     <TabPanel value={e.path}>
                       <e.component 
                       />
+                    </TabPanel>
+                  }
+                  )
+                  } */}
+                  {console.log("----->",this.state?.renderTabs.some((data)=>data.path === this.state.tabname))}
+
+                  {this.state?.renderTabs.map((e, i) => (
+                    <TabPanel value={e.path}>
+                      <AppControler tabpage={e}/>
+                      {/* <e.component 
+                      /> */}
                     </TabPanel>
                   )
                   )}
