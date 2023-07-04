@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import apps from './aaps.json'
-import { Padding } from '@mui/icons-material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '../../assets/login.css';
 
 import Table from '../../Table/Table';
@@ -16,10 +11,12 @@ import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
 
-import { groupAction, lederAction, stockCategoryAction } from '../../_actions';
 import { Button } from '@mui/material';
+import {  stockGroupAction } from '../../_actions';
 
-class StockCategory extends Component {
+import { REFRESH_ICON } from '../../constant/Images';
+
+class StockGroup extends Component {
   constructor(props) {
     super(props);
 
@@ -28,7 +25,6 @@ class StockCategory extends Component {
         CompanyID: null
       },
       columnDefs: [
-        { field: 'CompanyID' },
         { field: 'CompanyName' },
         { field: 'Name' },
         { field: 'NameMasterID' },
@@ -37,46 +33,34 @@ class StockCategory extends Component {
         { field: 'ParentGUID' }
       ],
       rowData: [],
+      dropdowndata:[],
       filterRowData: []
     };
   }
 
   componentDidMount = () => {
-    this.props.dispatch(companyAction.getCompany({}))
+    // this.props.dispatch(companyAction.getCompany({}))
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-      if (this.props.get_company_data) {
+      if (this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0) {
+        let drop_down_data = [{ ID: "", RemoteCmpName: "-select-" }]
+        this.props.get_company_data.Data.map((item) => {
+          drop_down_data.push(item)
+        })
         this.setState({
+          dropdowndata: drop_down_data,
           rowData: this.props.get_company_data.Data,
         })
       }
     }
-    if (this.props.get_stock_category_status !== prevProps.get_stock_category_status && this.props.get_stock_category_status == status.SUCCESS) {
-      if (this.props.stock_category_list) {
+    if (this.props.get_stock_group_status !== prevProps.get_stock_group_status && this.props.get_stock_group_status == status.SUCCESS) {
+      if (this.props.stock_group_list) {
         this.setState({
-          filterRowData: this.props.stock_category_list.Data,
+          filterRowData: this.props.stock_group_list.Data,
         })
       }
-    }
-  }
-  companyList = () => {
-    const { rowData } = this.state
-
-    if (rowData) {
-      let retData = [];
-      for (let i = 0; i < rowData.length; i++) {
-        let row = rowData[i];
-        if (row) {
-          retData.push(
-            <>
-              <option value={row.ID} >{row.RemoteCmpName}</option>
-            </>
-          );
-        }
-      }
-      return retData;
     }
   }
 
@@ -92,29 +76,32 @@ class StockCategory extends Component {
   refreshData = () => {
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(stockCategoryAction.getStockCategoryById({ CompanyID: requiData.CompanyID }))
+      this.props.dispatch(stockGroupAction.getStockGroupById({ CompanyID: requiData.CompanyID }))
     }
   }
 
   render() {
-    const { requiData, columnDefs } = this.state;
+    const { requiData, columnDefs, dropdowndata } = this.state;
     return (
       <>
-        <div style={{ border: "1px solid #9c82bd", padding: "20px", borderRadius:"10px" }}>
+        <div className='form-container'>
           <div className="col-12 col-sm-12 col-md-4">
             <div className="form-group form-group-common d-flex">
-              <FormControl className="select" style={{border: "1px solid #9c82bd"}}>
+              <FormControl className="select">
                 <NativeSelect
                   name="CompanyID"
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-                  <option value="">-Select-</option>
-                  {this.companyList()}
+                  {
+                    dropdowndata && dropdowndata.map((list, index) => (
+                      <option value={list.ID}>{list.RemoteCmpName}</option>
+                    ))
+                  }
                 </NativeSelect>
               </FormControl>
-              <Button variant="contained" className="alert-white-button ml-4" onClick={this.refreshData}>
-                <i className="fa fa-refresh"></i>
+              <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
+              <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>
             </div>
           </div>
@@ -128,14 +115,14 @@ class StockCategory extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_stock_category_status, stock_category_list } = state.procurement;
+  const { get_company_data, get_company_status, get_stock_group_status, stock_group_list } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_stock_category_status,
-    stock_category_list
+    get_stock_group_status,
+    stock_group_list
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(StockCategory);
+const connectedLogin = connect(mapStateToProps)(StockGroup);
 export default (connectedLogin);

@@ -1,12 +1,7 @@
 import React, { Component } from 'react';
-import { createRoot } from 'react-dom/client';
-import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-enterprise';
 import 'ag-grid-community/styles/ag-grid.css';
 import 'ag-grid-community/styles/ag-theme-alpine.css';
-import apps from './aaps.json'
-import { Padding } from '@mui/icons-material';
-import ArrowDownwardIcon from '@mui/icons-material/ArrowDownward';
 import '../../assets/login.css';
 
 import Table from '../../Table/Table';
@@ -16,11 +11,12 @@ import { companyAction } from '../../_actions/company.action';
 import { status } from '../../_constants';
 import { connect } from 'react-redux';
 
-
+import { lederAction } from '../../_actions';
 import { Button } from '@mui/material';
-import { stockGodownAction } from '../../_actions';
 
-class StockGodown extends Component {
+import { REFRESH_ICON } from '../../constant/Images';
+
+class Ledger extends Component {
   constructor(props) {
     super(props);
 
@@ -29,55 +25,63 @@ class StockGodown extends Component {
         CompanyID: null
       },
       columnDefs: [
-        { field: 'CompanyID' },
         { field: 'CompanyName' },
-        { field: 'Name' },
-        { field: 'NameMasterID' },
+        { field: 'LedgerName' },
+        { field: 'LedgerMasterID' },
         { field: 'GUID' },
         { field: 'AlterID' },
-        { field: 'ParentGUID' }
+        { field: 'ParentGUID' },
+        { field: 'ParentName' },
+        { field: 'CurrencyName' },
+        { field: 'IsBillWiseOn' },
+        { field: 'IsCostCentresOn' },
+        { field: 'AffectsStock' },
+        { field: 'CreditDays' },
+        { field: 'CreditLimit' },
+        { field: 'MailingName' },
+        { field: 'FullAddress' },
+        { field: 'CountryName' },
+        { field: 'StateName' },
+        { field: 'Pincode' },
+        { field: 'ContactPerson' },
+        { field: 'MobileNo' },
+        { field: 'PhoneNo' },
+        { field: 'EmailId' },
+        { field: 'CCEmail' },
+        { field: 'PANNo' },
+        { field: 'GSTRegType' },
+        { field: 'GSTNo' },
+        { field: 'OpeningBalance' }
       ],
       rowData: [],
+      dropdowndata:[],
       filterRowData: []
     };
   }
 
   componentDidMount = () => {
-    this.props.dispatch(companyAction.getCompany({}))
+    // this.props.dispatch(companyAction.getCompany({}))
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-      if (this.props.get_company_data) {
+      if (this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0) {
+        let drop_down_data = [{ ID: "", RemoteCmpName: "-select-" }]
+        this.props.get_company_data.Data.map((item) => {
+          drop_down_data.push(item)
+        })
         this.setState({
+          dropdowndata: drop_down_data,
           rowData: this.props.get_company_data.Data,
         })
       }
     }
-    if (this.props.get_stock_godown_status !== prevProps.get_stock_godown_status && this.props.get_stock_godown_status == status.SUCCESS) {
-      if (this.props.stock_godown_list) {
+    if (this.props.get_leder_status !== prevProps.get_leder_status && this.props.get_leder_status == status.SUCCESS) {
+      if (this.props.ledger_list) {
         this.setState({
-          filterRowData: this.props.stock_godown_list.Data,
+          filterRowData: this.props.ledger_list.BillData,
         })
       }
-    }
-  }
-  companyList = () => {
-    const { rowData } = this.state
-
-    if (rowData) {
-      let retData = [];
-      for (let i = 0; i < rowData.length; i++) {
-        let row = rowData[i];
-        if (row) {
-          retData.push(
-            <>
-              <option value={row.ID} >{row.RemoteCmpName}</option>
-            </>
-          );
-        }
-      }
-      return retData;
     }
   }
 
@@ -93,15 +97,15 @@ class StockGodown extends Component {
   refreshData = () => {
     const { requiData } = this.state;
     if (requiData) {
-      this.props.dispatch(stockGodownAction.getStockGodownById({ CompanyID: requiData.CompanyID }))
+      this.props.dispatch(lederAction.getLederById({ CompanyID: requiData.CompanyID }))
     }
   }
 
   render() {
-    const { requiData, columnDefs } = this.state;
+    const { requiData, columnDefs, dropdowndata } = this.state;
     return (
       <>
-        <div style={{ border: "1px solid #9c82bd", padding: "20px", borderRadius:"10px" }}>
+        <div className='form-container'>
           <div className="col-12 col-sm-12 col-md-4">
             <div className="form-group form-group-common d-flex">
               <FormControl className="select" style={{border: "1px solid #9c82bd"}}>
@@ -110,12 +114,15 @@ class StockGodown extends Component {
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-                  <option value="">-Select-</option>
-                  {this.companyList()}
+                   {
+                    dropdowndata && dropdowndata.map((list, index) => (
+                      <option value={list.ID}>{list.RemoteCmpName}</option>
+                    ))
+                  }
                 </NativeSelect>
               </FormControl>
-              <Button variant="contained" className="alert-white-button ml-4" onClick={this.refreshData}>
-                <i className="fa fa-refresh"></i>
+              <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
+              <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>
             </div>
           </div>
@@ -129,14 +136,14 @@ class StockGodown extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_stock_godown_status, stock_godown_list } = state.procurement;
+  const { get_company_data, get_company_status, get_leder_status, ledger_list } = state.procurement;
   return {
     get_company_data,
     get_company_status,
-    get_stock_godown_status,
-    stock_godown_list
+    get_leder_status,
+    ledger_list
   };
 }
 
-const connectedLogin = connect(mapStateToProps)(StockGodown);
+const connectedLogin = connect(mapStateToProps)(Ledger);
 export default (connectedLogin);

@@ -1,23 +1,18 @@
 import React, { Component, Suspense } from 'react';
-import { BrowserRouter, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import Header from '../_components/Header';
 import SideMenu from '../_components/SideMenu';
 import routes from '../_routes/routes';
-import { rolesAction, emailActions, departmentAction, requistionAction, tabAction } from '../_actions';
-import Loader from './../_components/commonLoader';
+import {tabAction } from '../_actions';
 import { status } from "../_constants";
-// import { Tab, Tabs, TabList, TabPanel } from 'react-tabs';
 import 'react-tabs/style/react-tabs.css';
 import Box from '@mui/material/Box';
-import Tabs, { tabsClasses } from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import { TabContext, TabList, TabPanel } from '@material-ui/lab';
 import CloseIcon from "@material-ui/icons/Close";
-import { IconButton } from "@material-ui/core";
-// import '../assets/tabs.css'
 import '../assets/login.css'
 import { ThemeProvider, createTheme } from '@mui/material';
+
 class DefaultLayout extends Component {
   constructor(props) {
     super(props);
@@ -25,16 +20,8 @@ class DefaultLayout extends Component {
       //Loading: false
       renderTabs: [],
       tab_Data_l: [],
-      value: "1"
+      value: "1",
     }
-  }
-
-  componentDidMount() {
-    // this.props.dispatch(departmentAction.getDepartment());
-    // this.props.dispatch(requistionAction.getCurrency());
-    // this.props.dispatch(emailActions.searchallemails({ 'search': 'inbox' }));
-    // this.props.dispatch(tabAction.add())
-
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -49,7 +36,7 @@ class DefaultLayout extends Component {
     }
     if (JSON.stringify(prevProps.tab_Data) !== JSON.stringify(this.props.tab_Data)) {
 
-      this.handleTabDataChange();
+       this.handleTabDataChange();
     }
   }
 
@@ -72,27 +59,8 @@ class DefaultLayout extends Component {
     })
   }
 
-  // createRoutes = () => {
-  //   return (
-  //     <Tabs>
-  //       <TabList>
-  //         <Tab>Title 1</Tab>
-  //         <Tab>Title 2</Tab>
-  //       </TabList>
-
-  //       <TabPanel>
-  //         <h2>Any content 1</h2>
-  //       </TabPanel>
-  //       <TabPanel>
-  //         <h2>Any content 2</h2>
-  //       </TabPanel>
-  //     </Tabs>
-  //   )
-  // };
-
   handleChange = (event, newValue) => {
     event.preventDefault();
-    console.log(newValue)
     this.setState({
       value: newValue,
       activeTab: newValue
@@ -109,7 +77,6 @@ class DefaultLayout extends Component {
       tabs.splice(i, 1)
       this.props.dispatch(tabAction.add([...tabs], tabs[i]))
     }
-
   }
 
   // Create a custom theme
@@ -118,15 +85,15 @@ class DefaultLayout extends Component {
       MuiTab: {
         styleOverrides: {
           root: {
-            boxShadow: "0px 0px 8px -3px black",
+            boxShadow: "0px 0px 8px -3px #2567c0",
             background: "white",
+            borderColor:"#e4e4e4",
             borderTopLeftRadius: "15% 100%",
             borderTopRightRadius: "15% 100%",
             borderBottomRightRadius: "7px",
             borderBottomLeftRadius: "7px",
-            minHeight: "40px",
-            padding:"0",
-            margin: "12px 0",
+            minHeight: "47px",
+            marginTop: "10px",
             marginRight: "-5px",
             '&.Mui-selected': {
               color: 'white', // Change the text color of the active tab
@@ -143,7 +110,7 @@ class DefaultLayout extends Component {
       MuiTab: {
         styleOverrides: {
           root: {
-            padding: "12px"
+            // padding: "12px"
           },
         },
       },
@@ -156,62 +123,14 @@ class DefaultLayout extends Component {
       <div className="wrapper">
 
         <SideMenu {...this.props} />
-        <Header {...this.props} />
+        <Header {...this.props} 
+        />
         <Suspense>
           <div className="content-page">
-            <div className="">
-
-              {/* {this.createRoutes()} */}
-
-              {/* <Tabs>
-                <TabList>
-                  {this.state?.renderTabs.map((e, i) => (
-                    <Tab key={i}>{e.name}</Tab>
-                  ))}
-                </TabList>
-
-
-                {this.state?.renderTabs.map((e, i) => (
-                  <TabPanel key={i}>
-                    {<e.component />}
-                  </TabPanel>
-                )
-                )}
-              </Tabs> */}
-
-              {/* <span onClick={() => this.handleRemoveTab(i)} className='btn btn-sm btn-danger'>x</span> */}
-              {/* {console.log("render", this.state.renderTabs)} */}
-
-              {/* <Box sx={{ width: '100%', typography: 'body1' }}>
-                <TabContext value={this.state.activeTab}>
-                  <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-                    <TabList onChange={this.handleChange} aria-label="lab API tabs example">
-                      {this.state?.renderTabs.map((e, i) => (
-                      
-                          <Tab label={e.name} value={e.path} key={i} />
-                          
-                       
-                      ))}
-                      <Tab label="Item One" value="1" />
-                    </TabList>
-                  </Box>
-                  {this.state?.renderTabs.map((e, i) => (
-                    <TabPanel key={i} value={e.path}>
-                      {<e.component />}
-                    </TabPanel>
-                  )
-                  )}
-                  <TabPanel value="1">Item One</TabPanel>
-                  <TabPanel value="2">Item Two</TabPanel>
-                  <TabPanel value="3">Item Three</TabPanel>
-                </TabContext>
-              </Box> */}
-
-
-              <div className='' >
+            <div className="container-fluid">
+              <div className=''>
                 <TabContext value={this.state.activeTab}>
                   <ThemeProvider theme={this.listTheme}>
-
                     <Box sx={{ width: '100%', typography: 'body1' }}>
                       <TabList onChange={this.handleChange}
                         TabIndicatorProps={{
@@ -222,24 +141,24 @@ class DefaultLayout extends Component {
                         textColor="secondary"
                         variant="scrollable"
                         scrollButtons="auto"
+                        orientation="horizontal"
+                        overscroll-behavior= "on"
                         aria-label="scrollable auto tabs example">
                         {this.state?.renderTabs.map((e, i) => (
                           <Tab theme={this.theme}
+                          scrollButtons="auto"
                             label={<span className='single_tab'>{e.name}
                               <CloseIcon onClick={(e) => this.handleRemoveTab(e, i)} className='closeBtn' />
                             </span>} value={e.path} key={i}
-
                           />
-
                         ))}
-                        {/* <button onClick={(e) => this.handleRemoveTab(e,i)}>X</button> */}
                       </TabList>
                     </Box>
                   </ThemeProvider>
                   {this.state?.renderTabs.map((e, i) => (
-                    <TabPanel style={{padding:"0px"}} value={e.path}>
-
-                      <e.component />
+                    <TabPanel value={e.path}>
+                      <e.component 
+                      />
                     </TabPanel>
                   )
                   )}

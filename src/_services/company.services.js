@@ -27,6 +27,5 @@ function getCompanyById(data) {
   };
  const requestOptions = commonFunctions.getRequestOptions("POST",extraHeaders,JSON.stringify(data)
 );
-console.log("object",requestOptions)
   return fetch(`${apiEndPoint.COMPANY_BY_ID}`, requestOptions).then((response)=>response.json());
 }

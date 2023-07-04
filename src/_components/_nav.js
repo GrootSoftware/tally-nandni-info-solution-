@@ -184,55 +184,6 @@ const _nav = [
             },
         ]
     },
-    // {
-    //     _tag: 'SidebarNavItem',
-    //     name: 'Configuration',
-    //     to: '/postlogin/config/message',
-    //     activeArr: ['/postlogin/config/message'],
-    //     open: false,
-    //     icon: <i className="fa-regular fa-envelope-open"></i>,
-
-    // },
-    // {
-    //     _tag: 'SidebarNavItem',
-    //     name: 'Slider',
-    //     to: '/postlogin/slider',
-    //     activeArr: ['/postlogin/slider'],
-    //     open: false,
-    //     icon: <i class="fa fa-sliders" aria-hidden="true"></i>,
-
-    // },
-    // {
-    //     _tag: 'SidebarNavItem',
-    //     name: 'Category',
-    //     to: '/postlogin/category',
-    //     activeArr: ['/postlogin/category'],
-    //     open: false,
-    //     icon: <i class="fa fa-sitemap"></i>,
-
-    // },
-
-    // {
-    //     _tag: 'SidebarNavItem',
-    //     name: 'Product',
-    //     to: '/postlogin/product',
-    //     activeArr: ['/postlogin/product'],
-    //     open: false,
-    //     icon: <i class='fas fa-boxes'></i>,
-
-    // },
-
-    //     {
-    //       _tag: 'Setting',
-    //       name: 'Setting',
-    //       to: '/postlogin/setting',
-    //       activeArr: ['/postlogin/setting'],
-    //       open: false,
-    //       icon: <i className="fab fa-microsoft" />,
-    //     },
-
-
-
 ]
 
 

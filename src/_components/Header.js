@@ -1,31 +1,17 @@
 import React, { Component } from 'react';
-import ReactFlagsSelect from 'react-flags-select';
 import UserImg from '../assets/images/user-img.png';
-import NotificationsIcon from '@material-ui/icons/Notifications';
-import CardGiftcardOutlinedIcon from '@material-ui/icons/CardGiftcardOutlined';
-import LibraryAddCheckIcon from '@material-ui/icons/LibraryAddCheck';
-import FolderIcon from '@material-ui/icons/Folder';
-import SearchIcon from '@material-ui/icons/Search';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
-import Badge from '@material-ui/core/Badge';
 import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import SettingsIcon from '@material-ui/icons/Settings';
-import SportsSoccerIcon from '@material-ui/icons/SportsSoccer';
-import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import ExitToAppOutlinedIcon from '@material-ui/icons/ExitToAppOutlined';
-import EvansjohnImg from '../assets/images/dashbord/evansjohn-img.png'
-import Kevin from '../assets/images/dashbord/kevin.png';
-import Joannah from '../assets/images/dashbord/joannah.png';
-import Machel from '../assets/images/dashbord/machel.png';
-import Approval1 from '../assets/images/dashbord/approval1.png'
-import Approval2 from '../assets/images/dashbord/approval2.png'
-import SimpleBar from 'simplebar-react';
 import 'simplebar/dist/simplebar.min.css';
-import { homeAction } from '../_actions'
 import { connect } from 'react-redux'
 import { status } from '../_constants';
+
+import FormControl from "@material-ui/core/FormControl";
+import NativeSelect from "@material-ui/core/NativeSelect";
+
+import { AutoCompleteComponent } from '../common/AutoCompleteComponent/AutoCompleteComponent';
+import { companyAction } from '../_actions/company.action';
 
 class Header extends Component {
   constructor(props) {
@@ -36,18 +22,43 @@ class Header extends Component {
       profile: false,
       profileOnClick: false,
       searchToggle: false,
-      notificationData: []
+      notificationData: [],
+      autoSelectList: [],
+      requiData: {
+        ID: null
+      },
     }
   }
-  componentDidMount() {
-    // this.props.dispatch(homeAction.Notificationdata());
+
+  componentDidMount = () => {
+    const loggedIn = window.localStorage.getItem('userData') !== null;
+    if (!loggedIn) {
+      window.location.href = '/'
+    }
   }
+
+
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_notification_status !== prevProps.get_notification_status && this.props.get_notification_status === status.SUCCESS) {
       if (this.props.get_notification_data && this.props.get_notification_data.length > 0) {
         this.setState({ notificationData: this.props.get_notification_data })
       }
     }
+
+    if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
+      if (this.props.get_company_status && this.props.get_company_data && this.props.get_company_data.Data) {
+        let drop_down_data = [{ID: "", RemoteCmpName: "select"}]
+        this.props.get_company_data.Data.map((itm, indx)=>(
+          drop_down_data.push(itm)
+        ))
+        this.setState({
+          autoSelectList: drop_down_data
+        })
+      }
+    }
+
+
+
   }
 
   handleSelect = (value) => {
@@ -128,7 +139,11 @@ class Header extends Component {
     }
     return retData;
   }
+
   componentWillMount() {
+
+    this.props.dispatch(companyAction.getCompany({}))
+
     let strCustomer = localStorage.getItem("userData");
     let customer = JSON.parse(strCustomer);
 
@@ -140,60 +155,81 @@ class Header extends Component {
     }
 
   }
-  componentDidMount = () => {
-    const loggedIn = window.localStorage.getItem('userData') !== null;
-    if (!loggedIn) {
-      window.location.href = '/'
-    }
-  }
+
   logout = () => {
     localStorage.clear();
     window.location.href = "/";
   }
+
+  handleSelect = (e) => {
+    const { name, value } = e.target;
+    const { requiData } = this.state;
+    requiData[name] = value;
+    localStorage.setItem("wareHouseId",value)
+    this.setState({
+      requiData,
+    });
+  }
+
   render() {
-    const { selected, notification, profile, searchToggle, firstName } = this.state;
+    const { profile, firstName, autoSelectList, requiData } = this.state;
     return (
       <>
-        <div className="navbar-custom" style={{background:"aliceblue"}}>
+        <div className="navbar-custom">
           <div className="header">
             <div className="row justify-content-center align-items-center">
-              <div className="col-xl-4 d-none d-xl-block">
-                <div className="app-search">
-                  {/* <div className="form-group">
-                    <input type="text" className="form-control" placeholder="Search here" />
-                    <button><SearchIcon /></button>
-                  </div> */}
-                </div>
+              <div className="col-4">
+                <span className='company-name-top'>TALLY DATA WAREHOUSE</span>
               </div>
-              <div className="col-xl-8 col-12">
-                <div className="d-block text-right header-notification">
-                  <div className="notification-user">
-                    <ul>
-                      <li>
-                        <Avatar onClick={this.openLogOutModel} alt="Remy Sharp" src={UserImg} className="" />
-                      </li>
-                      <li>
-                        <span className="user-name" onClick={this.openLogOutModel}><strong>{firstName}</strong> <br></br>Super Admin</span>
-                      </li>
-                      <li className="last" onClick={this.openLogOutModel}>
-                        <ArrowDropDownIcon className=".sort-down" />
-                      </li>
-                    </ul>
-                    {profile && (<>
-                      <div
-                        style={{ position: "fixed", width: "100%", height: "100%", left: "0", top: "0" }}
-                        onClick={this.openModelClose}
-                      ></div>
-                      <div className="profile-menu">
-                        <ul>
-                          {/* <li><AccountCircleIcon className="menu-icon" />Account</li>
-                          <li><SettingsIcon className="menu-icon" />Settings</li>
-                          <li><SportsSoccerIcon className="menu-icon" />Support</li>
-                          <li><LockOutlinedIcon className="menu-icon" />Lock</li> */}
-                          <li onClick={this.logout}><ExitToAppOutlinedIcon className="menu-icon" />Logout</li>
-                        </ul>
-                      </div>
-                    </>)}
+              <div className="col-xl-8 col-lg-12">
+                <div className="d-flex text-right header-notification ">
+                  <div className='row header-auto-select-component'>
+                  <div className="form-group-common ">
+              <FormControl className="select select-component">
+                <NativeSelect
+                  name="ID"
+                   value={requiData.ID}
+                   onChange={this.handleSelect}
+                >
+                  {
+                   autoSelectList && autoSelectList.map((list, index)=>(
+                    <option value={list.ID}>{list.RemoteCmpName}</option>
+                   ))
+                  }
+                </NativeSelect>
+              </FormControl>
+              </div>
+                    {/* <FormControl className='seletc-auto-complete'>
+                      <AutoCompleteComponent
+                        handleAutoSelect={this.handleAutoSelect}
+                        autoSelectList={autoSelectList}
+                      />
+                    </FormControl> */}
+                    <div className="notification-user">
+
+                      <ul>
+                        <li>
+                          <Avatar onClick={this.openLogOutModel} alt="Remy Sharp" src={UserImg} className="" />
+                        </li>
+                        <li>
+                          <span className="user-name" onClick={this.openLogOutModel}><strong>{firstName}</strong> <br></br>Super Admin</span>
+                        </li>
+                        <li className="last" onClick={this.openLogOutModel}>
+                          <ArrowDropDownIcon className=".sort-down" />
+                        </li>
+                      </ul>
+                      {profile && (<>
+                        <div
+                          style={{ position: "fixed", width: "100%", height: "100%", left: "0", top: "0" }}
+                          onClick={this.openModelClose}
+                        ></div>
+                        <div className="profile-menu">
+                          <ul>
+                            <li onClick={this.logout}><ExitToAppOutlinedIcon className="menu-icon" />Logout</li>
+                          </ul>
+                        </div>
+                      </>)}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -207,9 +243,17 @@ class Header extends Component {
 
 }
 const mapStateToProps = (state) => {
-  const { get_notification_status, get_notification_data } = state.procurement;
+  const { get_notification_status, get_notification_data, get_company_data,
+    get_company_status,
+    company_id_list,
+    get_company_id_status } = state.procurement;
   return {
-    get_notification_status, get_notification_data
+    get_notification_status,
+    get_notification_data,
+    get_company_data,
+    get_company_status,
+    company_id_list,
+    get_company_id_status
   }
 }
 
