@@ -39,9 +39,7 @@ class StockUnit extends Component {
     };
   }
 
-  componentDidMount = () => {
-    this.props.dispatch(companyAction.getCompany({}))
-  }
+ 
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {

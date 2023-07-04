@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import Header from '../_components/Header';
 import SideMenu from '../_components/SideMenu';
 import routes from '../_routes/routes';
-import {tabAction } from '../_actions';
+import { companyAction, tabAction } from '../_actions';
 import { status } from "../_constants";
 import 'react-tabs/style/react-tabs.css';
 import Box from '@mui/material/Box';
@@ -27,6 +27,10 @@ class DefaultLayout extends Component {
     }
   }
 
+  componentDidMount = () => {
+    this.props.dispatch(companyAction.getCompany({}))
+  }
+
   componentDidUpdate(prevProps, prevState) {
     if ((this.props.search_all_email_status !== prevProps.search_all_email_status) &&
       this.props.search_all_email_status === status.SUCCESS) {
@@ -38,7 +42,7 @@ class DefaultLayout extends Component {
       }
     }
     if (JSON.stringify(prevProps.tab_Data) !== JSON.stringify(this.props.tab_Data)) {
-       this.handleTabDataChange();
+      this.handleTabDataChange();
     }
   }
 
@@ -92,7 +96,7 @@ class DefaultLayout extends Component {
           root: {
             boxShadow: "0px 0px 8px -3px #2567c0",
             background: "white",
-            borderColor:"#e4e4e4",
+            borderColor: "#e4e4e4",
             borderTopLeftRadius: "15% 100%",
             borderTopRightRadius: "15% 100%",
             borderBottomRightRadius: "7px",
@@ -126,7 +130,7 @@ class DefaultLayout extends Component {
   render() {
 
     console.log("this.state.activeTab", this.state.activeTab);
-    
+
     return (
       <div className="wrapper">
 
@@ -149,15 +153,15 @@ class DefaultLayout extends Component {
                         variant="scrollable"
                         scrollButtons="auto"
                         orientation="horizontal"
-                        overscroll-behavior= "on"
+                        overscroll-behavior="on"
                         aria-label="scrollable auto tabs example">
                         {this.state?.renderTabs.map((e, i) => (
                           <Tab theme={this.theme}
-                          scrollButtons="auto"
+                            scrollButtons="auto"
                             label={<span className='single_tab'>{e.name}
                               <CloseIcon onClick={(e) => this.handleRemoveTab(e, i)} className='closeBtn' />
                             </span>}
-                             value={e.path} key={i}
+                            value={e.path} key={i}
                           />
                         ))}
                       </TabList>
@@ -178,11 +182,11 @@ class DefaultLayout extends Component {
                   }
                   )
                   } */}
-                  {console.log("----->",this.state?.renderTabs.some((data)=>data.path === this.state.tabname))}
+                  {console.log("----->", this.state?.renderTabs.some((data) => data.path === this.state.tabname))}
 
                   {this.state?.renderTabs.map((e, i) => (
                     <TabPanel value={e.path}>
-                      <AppControler tabpage={e}/>
+                      <AppControler tabpage={e} />
                       {/* <e.component 
                       /> */}
                     </TabPanel>

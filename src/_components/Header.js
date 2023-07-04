@@ -30,12 +30,12 @@ class Header extends Component {
     }
   }
 
-  componentDidMount = () => {
-    const loggedIn = window.localStorage.getItem('userData') !== null;
-    if (!loggedIn) {
-      window.location.href = '/'
-    }
-  }
+  // componentDidMount = () => {
+  //   const loggedIn = window.localStorage.getItem('userData') !== null;
+  //   if (!loggedIn) {
+  //     window.location.href = '/'
+  //   }
+  // }
 
 
   componentDidUpdate(prevProps, prevState) {
@@ -142,7 +142,7 @@ class Header extends Component {
 
   componentWillMount() {
 
-    this.props.dispatch(companyAction.getCompany({}))
+    // this.props.dispatch(companyAction.getCompany({}))
 
     let strCustomer = localStorage.getItem("userData");
     let customer = JSON.parse(strCustomer);

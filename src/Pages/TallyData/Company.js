@@ -18,9 +18,9 @@ class Company extends Component {
   constructor(props) {
     super(props);
 
-  let ware_houseId =  localStorage.getItem("wareHouseId");
+    let ware_houseId = localStorage.getItem("wareHouseId");
 
-  console.log("ware_houseId", ware_houseId);
+    console.log("ware_houseId", ware_houseId);
 
     this.state = {
       requiData: {
@@ -40,7 +40,7 @@ class Company extends Component {
 
       ],
       rowData: [],
-      dropdowndata :[],
+      dropdowndata: [],
     };
 
   }
@@ -61,20 +61,17 @@ class Company extends Component {
     }
   }
 
-  componentDidMount = () => {
-    this.props.dispatch(companyAction.getCompany({}))
-  }
-
   componentDidUpdate(prevProps, prevState) {
+    console.log("company data", this.props.get_company_data)
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-     
-      if(this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0){
-        let drop_down_data = [{ID: "", RemoteCmpName: "-select-"}]
-        this.props.get_company_data.Data.map((item)=>{
+
+      if (this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0) {
+        let drop_down_data = [{ ID: "", RemoteCmpName: "-select-" }]
+        this.props.get_company_data.Data.map((item) => {
           drop_down_data.push(item)
         })
         this.setState({
-          dropdowndata:drop_down_data,
+          dropdowndata: drop_down_data,
           rowData: this.props.get_company_data.Data,
         })
       }
@@ -103,14 +100,14 @@ class Company extends Component {
                   onChange={this.handleStateChange}
                 >
                   {
-                   dropdowndata && dropdowndata.map((list, index)=>(
-                    <option value={list.ID}>{list.RemoteCmpName}</option>
-                   ))
+                    dropdowndata && dropdowndata.map((list, index) => (
+                      <option value={list.ID}>{list.RemoteCmpName}</option>
+                    ))
                   }
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
-              <img src={REFRESH_ICON} alt="" title="Reload" />
+                <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>
             </div>
           </div>
