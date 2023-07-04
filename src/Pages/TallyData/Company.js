@@ -62,7 +62,7 @@ class Company extends Component {
   }
 
   componentDidMount = () => {
-    // this.props.dispatch(companyAction.getCompany({}))
+    this.props.dispatch(companyAction.getCompany({}))
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -90,7 +90,6 @@ class Company extends Component {
 
   render() {
     const { requiData, columnDefs, rowData, filterRowData, dropdowndata } = this.state;
-    console.log("path===>", this.props.path);
     return (
       <>
         <div className='form-container'>

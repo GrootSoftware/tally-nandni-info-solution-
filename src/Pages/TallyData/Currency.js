@@ -42,7 +42,7 @@ class Currency extends Component {
   }
 
   componentDidMount = () => {
-    // this.props.dispatch(companyAction.getCompany({}))
+    this.props.dispatch(companyAction.getCompany({}))
   }
 
   componentDidUpdate(prevProps, prevState) {

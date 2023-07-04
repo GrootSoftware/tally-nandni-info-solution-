@@ -28,6 +28,9 @@ const routes = [
     { path: '/postlogin/stock_item', exact: true, name: 'Stock Item', component: StockItem },
     { path: '/postlogin/stock_unit', exact: true, name: 'Stock Unit', component: StockUnit },
     { path: '/postlogin/voucher_type', exact: true, name: 'Voucher Type', component: VoucherType },
+
+
+
 ]
 
 export default routes;
