@@ -90,6 +90,7 @@ class Company extends Component {
 
   render() {
     const { requiData, columnDefs, rowData, filterRowData, dropdowndata } = this.state;
+    console.log("path===>", this.props.path);
     return (
       <>
         <div className='form-container'>
