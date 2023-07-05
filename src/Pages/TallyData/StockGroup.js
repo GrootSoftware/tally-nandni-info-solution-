@@ -71,10 +71,18 @@ class StockGroup extends Component {
     });
 
   };
+  
+  componentDidMount = () => {
+    let getDrop = localStorage.getItem("selectedOption");
+    const dropDownData = JSON.parse(getDrop)
+    this.setState({
+      dropDownData
+    })
+  }
   refreshData = () => {
-    const { requiData } = this.state;
-    if (requiData) {
-      this.props.dispatch(stockGroupAction.getStockGroupById({ CompanyID: requiData.CompanyID }))
+    const { dropDownData } = this.state;
+    if (dropDownData) {
+      this.props.dispatch(stockGroupAction.getStockGroupById({ CompanyID: dropDownData}))
     }
   }
   dropDownList = (dropData) => {
@@ -100,21 +108,7 @@ class StockGroup extends Component {
         <div className='form-container'>
           <div className="col-12 col-sm-12 col-md-4">
             <div className="form-group form-group-common d-flex">
-              <FormControl className="select">
-                <NativeSelect
-                  name="CompanyID"
-                  value={requiData.CompanyID}
-                  onChange={this.handleStateChange}
-                >
-                  <option value="">--Select--</option>
-                  {this.dropDownList(this.props.get_company_data)}
-                  {/* {
-                    dropdowndata && dropdowndata.map((list, index) => (
-                      <option value={list.ID}>{list.RemoteCmpName}</option>
-                    ))
-                  } */}
-                </NativeSelect>
-              </FormControl>
+        
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
               <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>

@@ -7,11 +7,9 @@ import 'simplebar/dist/simplebar.min.css';
 import { connect } from 'react-redux'
 import { status } from '../_constants';
 
-import FormControl from "@material-ui/core/FormControl";
-import NativeSelect from "@material-ui/core/NativeSelect";
-
-import { AutoCompleteComponent } from '../common/AutoCompleteComponent/AutoCompleteComponent';
-import { companyAction } from '../_actions/company.action';
+import TextField from '@mui/material/TextField';
+import Stack from '@mui/material/Stack';
+import Autocomplete from '@mui/material/Autocomplete';
 
 class Header extends Component {
   constructor(props) {
@@ -47,10 +45,10 @@ class Header extends Component {
 
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
       if (this.props.get_company_status && this.props.get_company_data && this.props.get_company_data.Data) {
-        let drop_down_data = [{ID: "", RemoteCmpName: "select"}]
-        this.props.get_company_data.Data.map((itm, indx)=>(
+       let drop_down_data = [{ ID: "", RemoteCmpName: "select" }]
+        this.props.get_company_data.Data.map((itm, indx) => (
           drop_down_data.push(itm)
-        ))
+        )) 
         this.setState({
           autoSelectList: drop_down_data
         })
@@ -165,10 +163,21 @@ class Header extends Component {
     const { name, value } = e.target;
     const { requiData } = this.state;
     requiData[name] = value;
-    localStorage.setItem("wareHouseId",value)
+    localStorage.setItem("wareHouseId", value)
     this.setState({
       requiData,
     });
+  }
+
+  handleChange = (event, value) => {
+    if (value) {
+      const selectedOption = this.state.autoSelectList.find((option) => option.RemoteCmpName === value);
+      if (selectedOption) {
+        localStorage.setItem("selectedOption", JSON.stringify(selectedOption.ID))
+      }
+    } else {
+      console.log('No option selected');
+    }
   }
 
   render() {
@@ -184,8 +193,27 @@ class Header extends Component {
               <div className="col-xl-8 col-lg-12">
                 <div className="d-flex text-right header-notification ">
                   <div className='row header-auto-select-component'>
-                  <div className="form-group-common ">
-              <FormControl className="select select-component">
+                    <div className="form-group-common ">
+                      <Stack spacing={2} sx={{ width: 300 }}>
+                        <Autocomplete
+
+                          onChange={this.handleChange}
+                          id="free-solo-2-demo"
+                          disableClearable
+                          options={autoSelectList.map((option) => option.RemoteCmpName)}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Search input"
+                              InputProps={{
+                                ...params.InputProps,
+                                type: 'search',
+                              }}
+                            />
+                          )}
+                        />
+                      </Stack>
+                      {/* <FormControl className="select select-component">
                 <NativeSelect
                   name="ID"
                    value={requiData.ID}
@@ -197,8 +225,8 @@ class Header extends Component {
                    ))
                   }
                 </NativeSelect>
-              </FormControl>
-              </div>
+              </FormControl> */}
+                    </div>
                     {/* <FormControl className='seletc-auto-complete'>
                       <AutoCompleteComponent
                         handleAutoSelect={this.handleAutoSelect}

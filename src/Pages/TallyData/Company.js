@@ -50,11 +50,18 @@ class Company extends Component {
     });
 
   };
+  componentDidMount = () => {
+    let getDrop = localStorage.getItem("selectedOption");
+    const dropDownData = JSON.parse(getDrop)
+    this.setState({
+      dropDownData
+    })
+  }
 
   refreshData = () => {
-    const { requiData } = this.state;
-    if (requiData) {
-      this.props.dispatch(companyAction.getCompanyById({ ID: requiData.ID }))
+    const { dropDownData } = this.state;
+    if (dropDownData) {
+      this.props.dispatch(companyAction.getCompanyById({ ID: dropDownData }))
     }
   }
 
@@ -97,27 +104,14 @@ class Company extends Component {
     }
   }
   render() {
-    const { requiData, columnDefs, rowData, filterRowData, dropdowndata } = this.state;
+    const { requiData, columnDefs, rowData, filterRowData, dropDownData } = this.state;
+    console.log("dropDownData", dropDownData)
     return (
       <>
         <div className='form-container'>
           <div className="col-12 col-sm-12 col-md-4 w-100 ml-0">
             <div className="form-group form-group-common d-flex">
-              <FormControl className="select">
-                <NativeSelect
-                  name="ID"
-                  value={requiData.ID}
-                  onChange={this.handleStateChange}
-                >
-                  <option value="">--Select--</option>
-                  {this.dropDownList(this.props.get_company_data)}
-                  {/* {
-                    this.props.get_company_data.Data && this.props.get_company_data.Data.map((list, index) => (
-                      <option value={list.ID}>{list.RemoteCmpName}</option>
-                    ))
-                  } */}
-                </NativeSelect>
-              </FormControl>
+              {/*  */}
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
                 <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>

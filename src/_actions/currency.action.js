@@ -2,7 +2,7 @@ import { status } from "../_constants";
 import { currencyServices } from "../_services";
 import { alert, commonFunctions } from "../_utilities";
 
-export const costCenterAction = {
+export const currencyAction = {
     getCurrencyById
 };
 
