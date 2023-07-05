@@ -77,7 +77,22 @@ class StockGroup extends Component {
       this.props.dispatch(stockGroupAction.getStockGroupById({ CompanyID: requiData.CompanyID }))
     }
   }
-
+  dropDownList = (dropData) => {
+    if (dropData?.Data) {
+      let retData = [];
+      for (let i = 0; i < dropData?.Data.length; i++) {
+        let row = dropData.Data[i]
+        if (row) {
+          retData.push(
+            <>
+              <option value={row.ID} >{row.RemoteCmpName}</option>
+            </>
+          );
+        }
+      }
+      return retData;
+    }
+  }
   render() {
     const { requiData, columnDefs, dropdowndata } = this.state;
     return (
@@ -91,11 +106,13 @@ class StockGroup extends Component {
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-                  {
+                  <option value="">--Select--</option>
+                  {this.dropDownList(this.props.get_company_data)}
+                  {/* {
                     dropdowndata && dropdowndata.map((list, index) => (
                       <option value={list.ID}>{list.RemoteCmpName}</option>
                     ))
-                  }
+                  } */}
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>

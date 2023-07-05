@@ -18,10 +18,6 @@ class Company extends Component {
   constructor(props) {
     super(props);
 
-    let ware_houseId = localStorage.getItem("wareHouseId");
-
-    console.log("ware_houseId", ware_houseId);
-
     this.state = {
       requiData: {
         ID: null
@@ -52,6 +48,7 @@ class Company extends Component {
     this.setState({
       requiData,
     });
+
   };
 
   refreshData = () => {
@@ -62,9 +59,7 @@ class Company extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    console.log("company data", this.props.get_company_data)
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
-
       if (this.props.get_company_data.Data && this.props.get_company_data.Data.length > 0) {
         let drop_down_data = [{ ID: "", RemoteCmpName: "-select-" }]
         this.props.get_company_data.Data.map((item) => {
@@ -85,9 +80,24 @@ class Company extends Component {
     }
   }
 
+  dropDownList = (dropData) => {
+    if (dropData?.Data) {
+      let retData = [];
+      for (let i = 0; i < dropData?.Data.length; i++) {
+        let row = dropData.Data[i]
+        if (row) {
+          retData.push(
+            <>
+              <option value={row.ID} >{row.RemoteCmpName}</option>
+            </>
+          );
+        }
+      }
+      return retData;
+    }
+  }
   render() {
     const { requiData, columnDefs, rowData, filterRowData, dropdowndata } = this.state;
-    console.log("path===>", this.props.path);
     return (
       <>
         <div className='form-container'>
@@ -99,11 +109,13 @@ class Company extends Component {
                   value={requiData.ID}
                   onChange={this.handleStateChange}
                 >
-                  {
-                    dropdowndata && dropdowndata.map((list, index) => (
+                  <option value="">--Select--</option>
+                  {this.dropDownList(this.props.get_company_data)}
+                  {/* {
+                    this.props.get_company_data.Data && this.props.get_company_data.Data.map((list, index) => (
                       <option value={list.ID}>{list.RemoteCmpName}</option>
                     ))
-                  }
+                  } */}
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>

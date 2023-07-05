@@ -34,7 +34,7 @@ class CostCategory extends Component {
     };
   }
 
- 
+
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
@@ -74,8 +74,25 @@ class CostCategory extends Component {
       this.props.dispatch(costCategoryAction.getCostCategoryById({ CompanyID: requiData.CompanyID, ID: 0 }))
     }
   }
+  dropDownList = (dropData) => {
+    if (dropData?.Data) {
+      let retData = [];
+      for (let i = 0; i < dropData?.Data.length; i++) {
+        let row = dropData.Data[i]
+        if (row) {
+          retData.push(
+            <>
+              <option value={row.ID} >{row.RemoteCmpName}</option>
+            </>
+          );
+        }
+      }
+      return retData;
+    }
+  }
   render() {
-    const { requiData, columnDefs, dropdowndata } = this.state;
+    const { requiData, columnDefs, filterRowData } = this.state;
+   
     return (
       <>
         <div className="form-container">
@@ -87,12 +104,13 @@ class CostCategory extends Component {
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-
-                  {
+                  <option value="">--Select--</option>
+                  {this.dropDownList(this.props.get_company_data)}
+                  {/* {
                     dropdowndata && dropdowndata.map((list, index) => (
                       <option value={list.ID}>{list.RemoteCmpName}</option>
                     ))
-                  }
+                  } */}
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
@@ -110,12 +128,13 @@ class CostCategory extends Component {
   }
 }
 function mapStateToProps(state) {
-  const { get_company_data, get_company_status, get_company_id_status, cost_category_id_list } = state.procurement;
+  const { get_company_data, get_company_status, get_company_id_status, cost_category_id_list ,get_cost_category_id_status} = state.procurement;
   return {
     get_company_data,
     get_company_status,
     get_company_id_status,
-    cost_category_id_list
+    cost_category_id_list,
+    get_cost_category_id_status
   };
 }
 

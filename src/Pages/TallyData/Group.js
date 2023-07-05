@@ -41,7 +41,7 @@ class Group extends Component {
     };
   }
 
- 
+
 
   componentDidUpdate(prevProps, prevState) {
     if (this.props.get_company_status !== prevProps.get_company_status && this.props.get_company_status == status.SUCCESS) {
@@ -80,7 +80,22 @@ class Group extends Component {
       this.props.dispatch(groupAction.getGroupById({ CompanyID: requiData.CompanyID }))
     }
   }
-
+  dropDownList = (dropData) => {
+    if (dropData?.Data) {
+      let retData = [];
+      for (let i = 0; i < dropData?.Data.length; i++) {
+        let row = dropData.Data[i]
+        if (row) {
+          retData.push(
+            <>
+              <option value={row.ID} >{row.RemoteCmpName}</option>
+            </>
+          );
+        }
+      }
+      return retData;
+    }
+  }
   render() {
     const { requiData, columnDefs, dropdowndata } = this.state;
     return (
@@ -94,16 +109,18 @@ class Group extends Component {
                   value={requiData.CompanyID}
                   onChange={this.handleStateChange}
                 >
-                  {
+                  <option value="">--Select--</option>
+                  {this.dropDownList(this.props.get_company_data)}
+                  {/* {
                      dropdowndata && dropdowndata.map((list, index) => (
                       <option value={list.ID}>{list.RemoteCmpName}</option>
                     ))
-                  }
-                  
+                  } */}
+
                 </NativeSelect>
               </FormControl>
               <Button variant="contained" className="action-button-theme ml-4" onClick={this.refreshData}>
-              <img src={REFRESH_ICON} alt="" title="Reload" />
+                <img src={REFRESH_ICON} alt="" title="Reload" />
               </Button>
             </div>
           </div>
